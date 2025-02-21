@@ -7,7 +7,7 @@ project:
   ]
 
 website:
-  title: "MA [46]15 Final Project"
+  title: "MA [46]15 Final Project Elegant Scientists"
   navbar:
     right:
       - about.qmd
