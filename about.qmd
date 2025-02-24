@@ -14,6 +14,9 @@ Hi, I am a senior that is majoring in data science. I love learning about new id
 ## Cat Mahoney
 Cat is a PhD student in the Earth & Environment department. She studies the biogeochemistry of coastal waterways, and is passionate about environmental issues and sustainable development. [Github](https://github.com/catmah20)
 
+## Yana Pathak
+I am a junior studying data science and computer science. I am interested in the intersectionality between the technology industry and others - specifically using technology to solve real life problems. 
+
 <!-- Please leave in the information below -->
 
 ### About this Template.
