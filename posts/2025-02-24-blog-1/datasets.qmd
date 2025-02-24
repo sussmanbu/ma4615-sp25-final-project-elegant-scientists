@@ -1,0 +1,18 @@
+---
+title: "Dataset Descriptions"
+description:  |
+  Brief descriptions of potential datasets and directions for research.
+authors: "Cat Mahoney, "
+date: "2025-02-24"
+draft: FALSE
+---
+
+## MA Air Quality: EPA Dataset
+[Download HERE!](https://www.epa.gov/outdoor-air-quality-data/download-daily-data) 
+This data set shows daily measures of various air pollutants across the United States. We hope to focus on neighborhoods around Boston, filtering data before downloading as follows:
+
+* Pollutant: PM2.5
+* Year: 2020
+* Location: MA - Suffolk County
+
+This will provide us with data from three sites: Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston.
