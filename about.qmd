@@ -18,8 +18,10 @@ Cat is a PhD student in the Earth & Environment department. She studies the biog
 I am a junior studying data science and computer science. I am interested in the intersectionality between the technology industry and others - specifically using technology to solve real life problems. 
 
 ## Jiaxuan Li
-I'm a junior student studying in Econ & Maths major. I like doing calculation related things and crazy about sports.
+I'm a junior student studying in Econ & Maths major. I like doing calculation related things and crazy about sports.  [Github](https://github.com/Jiaxuan0201)
 
+## Xiaolong Zhou
+I'm a junior student studying in economics. I love math and reasoning. [Github](https://github.com/Xiaolong711)
 
 <!-- Please leave in the information below -->
 
