@@ -17,6 +17,10 @@ Cat is a PhD student in the Earth & Environment department. She studies the biog
 ## Yana Pathak
 I am a junior studying data science and computer science. I am interested in the intersectionality between the technology industry and others - specifically using technology to solve real life problems. 
 
+## Jiaxuan Li
+I'm a junior student studying in Econ & Maths major. I like doing calculation related things and crazy about sports.
+
+
 <!-- Please leave in the information below -->
 
 ### About this Template.
