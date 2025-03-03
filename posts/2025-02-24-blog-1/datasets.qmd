@@ -2,7 +2,7 @@
 title: "Dataset Descriptions"
 description:  |
   Brief descriptions of potential datasets and directions for research.
-authors: "Cat Mahoney, "
+authors: "Cat Mahoney, Xiaolong Zhou"
 date: "2025-02-24"
 draft: FALSE
 ---
@@ -15,4 +15,15 @@ This data set shows daily measures of various air pollutants across the United S
 * Year: 2020
 * Location: MA - Suffolk County
 
-This will provide us with data from three sites: Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston.
+This will provide us with data from three sites: Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. 
+
+
+## Nutrition, Physical Activity, and Obesity - Behavioral Risk Factor Surveillance System
+[Download HERE!](https://chronicdata.cdc.gov/Nutrition-Physical-Activity-and-Obesity/Nutrition-Physical-Activity-and-Obesity-Behavioral/hn4x-zwk7/data_preview) 
+This dataset includes data on adult's diet, physical activity, and weight status from Behavioral Risk Factor Surveillance System. We can focus on nutrition and obesity in MA. We can filter the data by: 
+
+* Year: 2022
+* Data_value_type: Value
+* LocationAbbr: MA
+
+We will see several lines of data related to topics such as eating habits and weight indicators (obesity, overweight), which reflect the value of a certain nutrition or weight indicator in Massachusetts in 2022, and the corresponding confidence intervals, stratified categories, and so on. Further aggregating or visualizing these data will help us understand the nutrition and obesity status of Massachusetts adults in 2022. 
