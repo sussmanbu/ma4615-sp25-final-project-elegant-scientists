@@ -3,20 +3,21 @@ title: "Dataset Descriptions"
 description:  |
   Brief descriptions of potential datasets and directions for research.
 authors: "Cat Mahoney, Xiaolong Zhou"
-date: "2025-02-24"
+date: "2025-03-03"
 draft: FALSE
 ---
 
 ## MA Air Quality: EPA Dataset
+Particulate matter, especially fine particles (PM2.5) can adversely affect human health. Specifically, these particles can irritate airways, decrease lung function, aggravate asthma, and lead to pulmonary issues like heart attacks [EPA](https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm).
+
 [Download HERE!](https://www.epa.gov/outdoor-air-quality-data/download-daily-data) 
-This data set shows daily measures of various air pollutants across the United States. We hope to focus on neighborhoods around Boston, filtering data before downloading as follows:
+This data set shows daily measures of various air pollutants across the United States. We hope to focus on particulate matter exposure in neighborhoods around Boston, filtering data before downloading as follows:
 
 * Pollutant: PM2.5
 * Year: 2020
 * Location: MA - Suffolk County
 
-This will provide us with data from three sites: Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. 
-
+This will provide us with data from three sites: Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. We hypothesize that lower income communities that are more industrialized may have greater risk of PM exposure.
 
 ## Nutrition, Physical Activity, and Obesity - Behavioral Risk Factor Surveillance System
 [Download HERE!](https://chronicdata.cdc.gov/Nutrition-Physical-Activity-and-Obesity/Nutrition-Physical-Activity-and-Obesity-Behavioral/hn4x-zwk7/data_preview) 
