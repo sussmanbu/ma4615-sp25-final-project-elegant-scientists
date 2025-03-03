@@ -28,3 +28,10 @@ This dataset includes data on adult's diet, physical activity, and weight status
 * LocationAbbr: MA
 
 We will see several lines of data related to topics such as eating habits and weight indicators (obesity, overweight), which reflect the value of a certain nutrition or weight indicator in Massachusetts in 2022, and the corresponding confidence intervals, stratified categories, and so on. Further aggregating or visualizing these data will help us understand the nutrition and obesity status of Massachusetts adults in 2022. 
+
+## U.S. Deaths by Suicide: CDC Dataset
+According to the CDC, suicide is among the leading causes of death in the US, with rates steadily rising since 2000. Data also shows distinct demographic trends in suicide rates based on both race and gender.
+
+The following dataset shows death rates by suicide by sex, race, Hispanic origin, and age from 1950 to 2022. We hope to identify longer term demographic trends in these data, and perhaps find time series economic or other datasets to identify potential drivers in changing rates of death by suicide over the years.
+
+[Download HERE](https://catalog.data.gov/dataset/death-rates-for-suicide-by-sex-race-hispanic-origin-and-age-united-states-020c1)
