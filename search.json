@@ -53,14 +53,42 @@
     "href": "index.html",
     "title": "MA [46]15 Final Project",
     "section": "",
-    "text": "Final Project due May 5, 2024 at 11:59pm.\nThis comes from the index.qmd file.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGeneral Tips\n\n\n\n\n\nSome small but important tips to follow. \n\n\n\n\n\nOct 4, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nExamples\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nGetting started\n\n\n\n\n\n\n\n\nDirections to set up your website and create your first post. \n\n\n\n\n\nFeb 23, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Team Meeting\n\n\n\n\n\n\n\n\nThis post details the steps you’ll take for your first team meeting. \n\n\n\n\n\nFeb 21, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\nNo matching items"
+    "text": "Final Project due May 5, 2024 at 11:59pm.\nThis comes from the index.qmd file.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset Descriptions\n\n\n\n\n\nBrief descriptions of potential datasets and directions for research. \n\n\n\n\n\nMar 3, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nGeneral Tips\n\n\n\n\n\nSome small but important tips to follow. \n\n\n\n\n\nOct 4, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nExamples\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nGetting started\n\n\n\n\n\n\n\n\nDirections to set up your website and create your first post. \n\n\n\n\n\nFeb 23, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Team Meeting\n\n\n\n\n\n\n\n\nThis post details the steps you’ll take for your first team meeting. \n\n\n\n\n\nFeb 21, 2024\n\n\nDaniel Sussman\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "posts/2024-10-04-general-tips/general-tips.html",
-    "href": "posts/2024-10-04-general-tips/general-tips.html",
-    "title": "General Tips",
+    "objectID": "posts/2025-02-24-blog-1/datasets.html",
+    "href": "posts/2025-02-24-blog-1/datasets.html",
+    "title": "Dataset Descriptions",
     "section": "",
-    "text": "Use the tidyverse!\nYou don’t have to tell me what kind of chart something is. For example, the below is not a useful start to a sentence.\n\n\nThe graph presents a horizontal bar chart …\n\n\nEach page should be largely standalone.\nSometimes small tables or even inline numbers are better than a figure.\nRedundant colors (e.g. bar charts where each bar is a different color that doesn’t signify anything) often don’t help.\nProvide some details on how much data was removed in your cleaning process.\nUse the tidyverse!\nImagine I’m an impatient boss. Show me only what is important and relevant.\nCleaning must be entirely in R\nDon’t say things like, well if only everyone did like so and so than everything would be better. There are many things hiding behind the data that would go to explain things. This is an example of a bad conclusion.\n\n\nThe world could benefit form modeling its education systems after Europe’s.\n\nIt is fine to talk about how the European system is better according to certain metrics, but don’t assume that can easily translate to other regions.\n\nDon’t talk about your “journey”. The blog posts tell the story of your journey. The main pages should focus on the data and your findings.\n\n\nUse the tidyverse!\nNo but seriously, when asking ChatGPT to do your project for you, make sure to tell it to use the tidyverse, not base R."
+    "text": "Particulate matter, especially fine particles (PM2.5) can adversely affect human health. Specifically, these particles can irritate airways, decrease lung function, aggravate asthma, and lead to pulmonary issues like heart attacks EPA.\nDownload HERE! This data set shows daily measures of various air pollutants across the United States. We hope to focus on particulate matter exposure in neighborhoods around Boston, filtering data before downloading as follows:\n\nPollutant: PM2.5\nYear: 2020\nLocation: MA - Suffolk County\n\nThis will provide us with daily data from three sensors in Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. We hypothesize that lower income communities that are more industrialized may have greater risk of PM exposure.\nData set information: * 22 columns, although most are not necessary after filtering (e.g. County, State). * 1695 rows. * Data can be downloaded as a .csv file and we should be able to clean it."
+  },
+  {
+    "objectID": "posts/2025-02-24-blog-1/datasets.html#ma-air-quality-epa-dataset",
+    "href": "posts/2025-02-24-blog-1/datasets.html#ma-air-quality-epa-dataset",
+    "title": "Dataset Descriptions",
+    "section": "",
+    "text": "Particulate matter, especially fine particles (PM2.5) can adversely affect human health. Specifically, these particles can irritate airways, decrease lung function, aggravate asthma, and lead to pulmonary issues like heart attacks EPA.\nDownload HERE! This data set shows daily measures of various air pollutants across the United States. We hope to focus on particulate matter exposure in neighborhoods around Boston, filtering data before downloading as follows:\n\nPollutant: PM2.5\nYear: 2020\nLocation: MA - Suffolk County\n\nThis will provide us with daily data from three sensors in Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. We hypothesize that lower income communities that are more industrialized may have greater risk of PM exposure.\nData set information: * 22 columns, although most are not necessary after filtering (e.g. County, State). * 1695 rows. * Data can be downloaded as a .csv file and we should be able to clean it."
+  },
+  {
+    "objectID": "posts/2025-02-24-blog-1/datasets.html#nutrition-physical-activity-and-obesity---behavioral-risk-factor-surveillance-system",
+    "href": "posts/2025-02-24-blog-1/datasets.html#nutrition-physical-activity-and-obesity---behavioral-risk-factor-surveillance-system",
+    "title": "Dataset Descriptions",
+    "section": "Nutrition, Physical Activity, and Obesity - Behavioral Risk Factor Surveillance System",
+    "text": "Nutrition, Physical Activity, and Obesity - Behavioral Risk Factor Surveillance System\nDownload HERE! This dataset includes data on adult’s diet, physical activity, and weight status from Behavioral Risk Factor Surveillance System. We can focus on nutrition and obesity in MA. We can filter the data by:\n\nYear: 2022\nData_value_type: Value\nLocationAbbr: MA\n\nWe will see several lines of data related to topics such as eating habits and weight indicators (obesity, overweight), which reflect the value of a certain nutrition or weight indicator in Massachusetts in 2022, and the corresponding confidence intervals, stratified categories, and so on. Further aggregating or visualizing these data will help us understand the nutrition and obesity status of Massachusetts adults in 2022."
+  },
+  {
+    "objectID": "posts/2025-02-24-blog-1/datasets.html#u.s.-deaths-by-suicide-cdc-dataset",
+    "href": "posts/2025-02-24-blog-1/datasets.html#u.s.-deaths-by-suicide-cdc-dataset",
+    "title": "Dataset Descriptions",
+    "section": "U.S. Deaths by Suicide: CDC Dataset",
+    "text": "U.S. Deaths by Suicide: CDC Dataset\nAccording to the CDC, suicide is among the leading causes of death in the US, with rates steadily rising since 2000. Data also shows distinct demographic trends in suicide rates based on both race and gender.\nThe following data set shows death rates by suicide by sex, race, Hispanic origin, and age from 1950 to 2022. We hope to identify longer term demographic trends in these data, and perhaps find time series economic or other data sets to identify potential drivers in changing rates of death by suicide over the years.\nDownload HERE\nData set information: * These data are collected from annual public use mortality files from the National Center for Health Statistics and the U.S. Census Bureau. * 6,390 rows. * 13 columns. * The issue with this data set is the structure of the columns. They combine multiple variables (e.g. Age, Sex, and Hispanic origin) into one cell when they should be separate columns."
+  },
+  {
+    "objectID": "posts/2023-10-13-first-team-meeting/first-team-meeting.html",
+    "href": "posts/2023-10-13-first-team-meeting/first-team-meeting.html",
+    "title": "First Team Meeting",
+    "section": "",
+    "text": "These are the steps that you will take today to get started on your project. Today, you will just be brainstorming, and then next week, you’ll get started on the main aspects of the project.\n\nStart by introducing yourselves to each other. I also recommend creating a private channel on Microsoft Teams with all your team members. This will be a place that you can communicate and share ideas, code, problems, etc.\nDiscuss what aspects of the project each of you are more or less excited about. These include\n\nCollecting, cleaning, and munging data ,\nStatistical Modeling,\nVisualization,\nWriting about analyses, and\nManaging and reviewing team work.\n\nBased on this, discuss where you feel your strengths and weaknesses might be.\nNext, start brainstorming questions you hope to answer as part of this project. This question should in some way be addressing issues around racial disparities. The questions you come up with should be at the level of the question we started with when exploring the HMDA data. (“Are there differences in the ease of securing a loan based on the race of the applicant?”) You’ll revise your questions a lot over the course of the project. Come up with a few questions that your group might be interested in exploring.\nBased on these questions, start looking around for data that might help you analyze this. If you are looking at U.S. based data, data.gov is a good source and if you are looking internationally, I recommend checking out the World Bank. Also, try Googling for data. Include “data set” or “dataset” in your query. You might even include “CSV” or some other format. Using “data” by itself in your query often doesn’t work too well. Spend some time searching for data and try to come up with at least three possible data sets. (For your first blog post, you’ll write short proposals about each of them that I’ll give feedback on.)\nCome up with a team name. Next week, I’ll provide the Github Classroom assignment that will be where you work on your final project and you’ll have to have your team name finalized by then. Your project will be hosted online at the website with a URL like sussmanbu.github.io/ma4615-fa23-final-project-TEAMNAME.\n\nNext time, you’ll get your final project website set up and write your first blog post."
   },
   {
     "objectID": "posts/2023-10-15-getting-started/getting-started.html",
@@ -70,11 +98,11 @@
     "text": "Below, the items marked with [[OP]] should only be done by one person on the team.\n\nTo get started\n\n[[OP]] One person from the team should click the Github Classroom link on Teams.\n[[OP]] That person types in the group name for their group.\nThe rest of the team now clicks the Github Classroom link and selects their team from the dropdown list.\nFinally, each of you can clone the repository to your laptop like a normal assignment.\n\n\n\nSetting up the site\n\n[[OP]] Open the terminal and run quarto publish gh-pages.\n[[OP]] Select Yes to the prompt:  ? Publish site to https://sussmanbu.github.io/ma4615-fa23-final-project-TEAMNAME/ using gh-pages? (Y/n)\n[[OP]] Wait for the process to finish.\nOnce it is done, you can go to the URL it asked you about to see your site.\n\nNote: This is the process you will use every time you want to update your published site. Make sure to always follow the steps below for rendering, previewing, and committing your changes before doing these publish steps. Anyone can publish in the future.\n\n\nCustomize your site\n\n[[OP]] Open the _quarto.yml file and update the title to include your team name.\n[[OP]] Go to the about.qmd and remove the TF’s and professor’s names.\nadd your own along with a short introduction and a link to your Github user page.\n[[OP]] Render the site.\n[[OP]] Check and make sure you didn’t get any errors.\n[[OP]] Commit your changes and push.\n[[OP]] Repeat the steps under Setting up your site.\n\nOnce one person is done with this, each teammate in the group can, in turn, repeat steps 3-7. Before doing so, make sure to pull the changes from teammates before starting to make new changes. (We’ll talk soon about ways to organize your work and resolve conflicts.)\n\n\nStart your first post\n\nTo start your first post first, run remotes::install_github(\"sussmanbu/quartopost\") in your Console.\n[[OP]] Run quartopost::quartopost() (or click Addins-&gt;Create Quarto Post, or use C-Shift-P, type “Create Quarto” and press enter to run the command).\n\nNow you can start working on your post. You’ll want to render your post to see what it will look like on the site.\n\nEvery time you want to make a new post, you can repeat step 2 above.\nWhen you want to publish your progress, follow steps 4-7 from Customize your site.\n\nFinally, make sure to read through everything on this site which has the directions and rubric for the final project."
   },
   {
-    "objectID": "posts/2023-10-13-first-team-meeting/first-team-meeting.html",
-    "href": "posts/2023-10-13-first-team-meeting/first-team-meeting.html",
-    "title": "First Team Meeting",
+    "objectID": "posts/2024-10-04-general-tips/general-tips.html",
+    "href": "posts/2024-10-04-general-tips/general-tips.html",
+    "title": "General Tips",
     "section": "",
-    "text": "These are the steps that you will take today to get started on your project. Today, you will just be brainstorming, and then next week, you’ll get started on the main aspects of the project.\n\nStart by introducing yourselves to each other. I also recommend creating a private channel on Microsoft Teams with all your team members. This will be a place that you can communicate and share ideas, code, problems, etc.\nDiscuss what aspects of the project each of you are more or less excited about. These include\n\nCollecting, cleaning, and munging data ,\nStatistical Modeling,\nVisualization,\nWriting about analyses, and\nManaging and reviewing team work.\n\nBased on this, discuss where you feel your strengths and weaknesses might be.\nNext, start brainstorming questions you hope to answer as part of this project. This question should in some way be addressing issues around racial disparities. The questions you come up with should be at the level of the question we started with when exploring the HMDA data. (“Are there differences in the ease of securing a loan based on the race of the applicant?”) You’ll revise your questions a lot over the course of the project. Come up with a few questions that your group might be interested in exploring.\nBased on these questions, start looking around for data that might help you analyze this. If you are looking at U.S. based data, data.gov is a good source and if you are looking internationally, I recommend checking out the World Bank. Also, try Googling for data. Include “data set” or “dataset” in your query. You might even include “CSV” or some other format. Using “data” by itself in your query often doesn’t work too well. Spend some time searching for data and try to come up with at least three possible data sets. (For your first blog post, you’ll write short proposals about each of them that I’ll give feedback on.)\nCome up with a team name. Next week, I’ll provide the Github Classroom assignment that will be where you work on your final project and you’ll have to have your team name finalized by then. Your project will be hosted online at the website with a URL like sussmanbu.github.io/ma4615-fa23-final-project-TEAMNAME.\n\nNext time, you’ll get your final project website set up and write your first blog post."
+    "text": "Use the tidyverse!\nYou don’t have to tell me what kind of chart something is. For example, the below is not a useful start to a sentence.\n\n\nThe graph presents a horizontal bar chart …\n\n\nEach page should be largely standalone.\nSometimes small tables or even inline numbers are better than a figure.\nRedundant colors (e.g. bar charts where each bar is a different color that doesn’t signify anything) often don’t help.\nProvide some details on how much data was removed in your cleaning process.\nUse the tidyverse!\nImagine I’m an impatient boss. Show me only what is important and relevant.\nCleaning must be entirely in R\nDon’t say things like, well if only everyone did like so and so than everything would be better. There are many things hiding behind the data that would go to explain things. This is an example of a bad conclusion.\n\n\nThe world could benefit form modeling its education systems after Europe’s.\n\nIt is fine to talk about how the European system is better according to certain metrics, but don’t assume that can easily translate to other regions.\n\nDon’t talk about your “journey”. The blog posts tell the story of your journey. The main pages should focus on the data and your findings.\n\n\nUse the tidyverse!\nNo but seriously, when asking ChatGPT to do your project for you, make sure to tell it to use the tidyverse, not base R."
   },
   {
     "objectID": "posts/2023-12-20-examples/examples.html",
@@ -93,23 +121,44 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About Team Elegant Scientists",
     "section": "",
-    "text": "This comes from the file about.qmd.\nThis is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME. The members of this team are below."
+    "text": "This comes from the file about.qmd."
   },
   {
-    "objectID": "about.html#jiaming-hu",
-    "href": "about.html#jiaming-hu",
-    "title": "About",
-    "section": "Jiaming Hu",
-    "text": "Jiaming Hu\nJiaming is a Ph.D. student in Stats and is the Teaching Fellow for the course."
+    "objectID": "about.html#hrithik-shivnauth",
+    "href": "about.html#hrithik-shivnauth",
+    "title": "About Team Elegant Scientists",
+    "section": "Hrithik Shivnauth",
+    "text": "Hrithik Shivnauth\nHi, I am a senior that is majoring in data science. I love learning about new ideas and I am open to working with this group."
   },
   {
-    "objectID": "about.html#dan-sussman",
-    "href": "about.html#dan-sussman",
-    "title": "About",
-    "section": "Dan Sussman",
-    "text": "Dan Sussman\nDan is a professor in the Math/Stat department and is the instructor for the course. Github\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
+    "objectID": "about.html#cat-mahoney",
+    "href": "about.html#cat-mahoney",
+    "title": "About Team Elegant Scientists",
+    "section": "Cat Mahoney",
+    "text": "Cat Mahoney\nCat is a PhD student in the Earth & Environment department. She studies the biogeochemistry of coastal waterways, and is passionate about environmental issues and sustainable development. Github"
+  },
+  {
+    "objectID": "about.html#yana-pathak",
+    "href": "about.html#yana-pathak",
+    "title": "About Team Elegant Scientists",
+    "section": "Yana Pathak",
+    "text": "Yana Pathak\nI am a junior studying data science and computer science. I am interested in the intersectionality between the technology industry and others - specifically using technology to solve real life problems. Github"
+  },
+  {
+    "objectID": "about.html#jiaxuan-li",
+    "href": "about.html#jiaxuan-li",
+    "title": "About Team Elegant Scientists",
+    "section": "Jiaxuan Li",
+    "text": "Jiaxuan Li\nI’m a junior student studying in Econ & Maths major. I like doing calculation related things and crazy about sports. Github"
+  },
+  {
+    "objectID": "about.html#xiaolong-zhou",
+    "href": "about.html#xiaolong-zhou",
+    "title": "About Team Elegant Scientists",
+    "section": "Xiaolong Zhou",
+    "text": "Xiaolong Zhou\nI’m a junior student studying in economics. I love math and reasoning. Github\n\n\nAbout this Template.\nThis is based off of the standard Quarto website template from RStudio (2023.09.0 Build 463)."
   },
   {
     "objectID": "big_picture.html",

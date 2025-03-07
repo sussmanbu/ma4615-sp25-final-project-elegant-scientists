@@ -6,11 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Daniel Sussman">
-<meta name="dcterms.date" content="2024-10-04">
-<meta name="description" content="Some small but important tips to follow.">
+<meta name="dcterms.date" content="2025-03-03">
+<meta name="description" content="Brief descriptions of potential datasets and directions for research.">
 
-<title>General Tips – MA [46]15 Final Project Elegant Scientists</title>
+<title>Dataset Descriptions – MA [46]15 Final Project Elegant Scientists</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,10 +117,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">General Tips</h1>
+      <h1 class="title">Dataset Descriptions</h1>
                   <div>
         <div class="description">
-          <p>Some small but important tips to follow.</p>
+          <p>Brief descriptions of potential datasets and directions for research.</p>
         </div>
       </div>
                 </div>
@@ -133,14 +132,14 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Daniel Sussman </p>
+               <p>Cat Mahoney, Xiaolong Zhou </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 4, 2024</p>
+        <p class="date">March 3, 2025</p>
       </div>
     </div>
     
@@ -159,33 +158,34 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<section id="ma-air-quality-epa-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="ma-air-quality-epa-dataset">MA Air Quality: EPA Dataset</h2>
+<p>Particulate matter, especially fine particles (PM2.5) can adversely affect human health. Specifically, these particles can irritate airways, decrease lung function, aggravate asthma, and lead to pulmonary issues like heart attacks <a href="https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm">EPA</a>.</p>
+<p><a href="https://www.epa.gov/outdoor-air-quality-data/download-daily-data">Download HERE!</a> This data set shows daily measures of various air pollutants across the United States. We hope to focus on particulate matter exposure in neighborhoods around Boston, filtering data before downloading as follows:</p>
 <ul>
-<li>Use the tidyverse!</li>
-<li>You don’t have to tell me what kind of chart something is. For example, the below is not a useful start to a sentence.</li>
+<li>Pollutant: PM2.5</li>
+<li>Year: 2020</li>
+<li>Location: MA - Suffolk County</li>
 </ul>
-<blockquote class="blockquote">
-<p>The graph presents a horizontal bar chart …</p>
-</blockquote>
+<p>This will provide us with daily data from three sensors in Kenmore Sq., Roxbury, and Dorchester. We would then compare particulate matter (PM) across 2020 census data to explore potential trends in pollutant exposure by race near Boston. We hypothesize that lower income communities that are more industrialized may have greater risk of PM exposure.</p>
+<p>Data set information: * 22 columns, although most are not necessary after filtering (e.g.&nbsp;County, State). * 1695 rows. * Data can be downloaded as a .csv file and we should be able to clean it.</p>
+</section>
+<section id="nutrition-physical-activity-and-obesity---behavioral-risk-factor-surveillance-system" class="level2">
+<h2 class="anchored" data-anchor-id="nutrition-physical-activity-and-obesity---behavioral-risk-factor-surveillance-system">Nutrition, Physical Activity, and Obesity - Behavioral Risk Factor Surveillance System</h2>
+<p><a href="https://chronicdata.cdc.gov/Nutrition-Physical-Activity-and-Obesity/Nutrition-Physical-Activity-and-Obesity-Behavioral/hn4x-zwk7/data_preview">Download HERE!</a> This dataset includes data on adult’s diet, physical activity, and weight status from Behavioral Risk Factor Surveillance System. We can focus on nutrition and obesity in MA. We can filter the data by:</p>
 <ul>
-<li>Each page should be largely standalone.</li>
-<li>Sometimes small tables or even inline numbers are better than a figure.</li>
-<li>Redundant colors (e.g.&nbsp;bar charts where each bar is a different color that doesn’t signify anything) often don’t help.</li>
-<li>Provide some details on how much data was removed in your cleaning process.</li>
-<li><strong>Use the tidyverse!</strong></li>
-<li>Imagine I’m an impatient boss. Show me only what is important and relevant.</li>
-<li>Cleaning must be entirely in R</li>
-<li>Don’t say things like, well if only everyone did like so and so than everything would be better. There are many things hiding behind the data that would go to explain things. This is an example of a bad conclusion.</li>
+<li>Year: 2022</li>
+<li>Data_value_type: Value</li>
+<li>LocationAbbr: MA</li>
 </ul>
-<blockquote class="blockquote">
-<p>The world could benefit form modeling its education systems after Europe’s.</p>
-</blockquote>
-<p>It is fine to talk about how the European system is better according to certain metrics, but don’t assume that can easily translate to other regions.</p>
-<ul>
-<li>Don’t talk about <em>your</em> “journey”. The blog posts tell the story of your journey. The main pages should focus on the data and your findings.</li>
-</ul>
-<section id="use-the-tidyverse" class="level1">
-<h1>Use the tidyverse!</h1>
-<p>No but seriously, when asking ChatGPT to do your project for you, make sure to tell it to use the tidyverse, not base R.</p>
+<p>We will see several lines of data related to topics such as eating habits and weight indicators (obesity, overweight), which reflect the value of a certain nutrition or weight indicator in Massachusetts in 2022, and the corresponding confidence intervals, stratified categories, and so on. Further aggregating or visualizing these data will help us understand the nutrition and obesity status of Massachusetts adults in 2022.</p>
+</section>
+<section id="u.s.-deaths-by-suicide-cdc-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="u.s.-deaths-by-suicide-cdc-dataset">U.S. Deaths by Suicide: CDC Dataset</h2>
+<p>According to the CDC, suicide is among the leading causes of death in the US, with rates steadily rising since 2000. Data also shows distinct demographic trends in suicide rates based on both race and gender.</p>
+<p>The following data set shows death rates by suicide by sex, race, Hispanic origin, and age from 1950 to 2022. We hope to identify longer term demographic trends in these data, and perhaps find time series economic or other data sets to identify potential drivers in changing rates of death by suicide over the years.</p>
+<p><a href="https://catalog.data.gov/dataset/death-rates-for-suicide-by-sex-race-hispanic-origin-and-age-united-states-020c1">Download HERE</a></p>
+<p>Data set information: * These data are collected from annual public use mortality files from the National Center for Health Statistics and the U.S. Census Bureau. * 6,390 rows. * 13 columns. * The issue with this data set is the structure of the columns. They combine multiple variables (e.g.&nbsp;Age, Sex, and Hispanic origin) into one cell when they should be separate columns.</p>
 
 
 </section>
