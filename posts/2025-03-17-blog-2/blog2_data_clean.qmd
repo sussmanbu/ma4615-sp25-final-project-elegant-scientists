@@ -1,0 +1,70 @@
+---
+title: "Blog 2: Background, Data Cleaning, Data Equity"
+description:  |
+  Preliminary data loading and cleaning, subject and data background, data equity evaluation.
+authors: "Background, Equity: Cat Mahoney, Yana Pathak. Data Cleaning: Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-03-17"
+draft: FALSE
+---
+
+## Data Background
+The EPA AirData project monitors air quality across the U.S., Puerto Rico, and the U.S. Virgin Islands. It utilizes the Index Report through an annual summary of Air Quality Index (AQI) values in any county or city. The summary contains maximum, 90th percentile and median AQI, the count of days in each AQI category, and the count of days of when the AQI could be due to a criteria pollutant. They also provide a statistics report that shows the annual summary of air pollution values showing the highest values reported during the year by all monitors in the Core Based Statistical Area (CBSA) or county. 
+
+Air quality stations monitor up to six pollutants, which include ozone, carbon monoxide, nitrogen dioxide, sulfur dioxide, lead, and particulate matter (PM) in sizes 10 and 2.5 micrometers. This study will focus on particulate matter, particularly PM2.5 or fine particulate matter. These small particulates are a mix of solids and aerosols that can have negative impacts on human health and the environment. Most fine particles (PM2.5) are derived from the combustion of fossil fuels or organic materials (i.e. wood), but can also form through chemical reactions in the atmosphere [CRB](https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health). These pollutants can be inhaled and lead to adverse health effects like reduced lung function, or lung cancer [IARC](https://publications.iarc.fr/Book-And-Report-Series/Iarc-Monographs-On-The-Identification-Of-Carcinogenic-Hazards-To-Humans/Outdoor-Air-Pollution-2015). 
+
+AirData uses AQI for some of its reports, as it is an important index for measuring and reporting daily air quality. Based on a scale from 0 to 500, one can tell how clean or polluted the air is in their area. The higher the AQI value, the more polluted the air is, posing a greater risk to people’s health. An AQI of below 100 is seen as satisfactory, and above 100 is unhealthy, first for sensitive groups of people and then for the general public. Anything greater than 300 is considered hazardous for the entire population.
+
+
+## Data Loading and Cleaning
+[Data HERE](https://www.epa.gov/outdoor-air-quality-data/download-daily-data)
+From the EPA website, we filtered according to the following criteria:
+
+* Pollutant: PM2.5
+* Year: 2020
+* Location: MA - Suffolk County
+
+### You would need to start with a subset of the data. How did you choose this?
+We created a variable list for the columns we wanted to keep, which were:
+
+* Date: Used to analyze time trends, such as seasonal changes or long-term trends.
+* Daily Mean PM2.5 Concentration: Core indicators, important values for measuring air quality. 
+* Units: Ensure data consistency (µg/m³)
+* Local Site Name: Helps identify data sources, especially when comparing different sites. 
+* Method code: Used for data verification to ensure consistency of measurement methods. 
+* County: Provide context for regional analysis, comparing air quality in different counties. 
+* Site Latitude and Site Longitude: Used for geographic analysis and visualization.
+
+Finally, we read the downloaded CSV file into R, selected our desired columns, and wrote an RDS file.
+
+```{r, eval=FALSE}
+library(tidyverse)
+
+var <- c("Date","Daily Mean PM2.5 Concentration","Units","Local Site Name", "Method Code","County","Site Latitude","Site Longitude")
+
+air_qual <- read_csv(here::here("dataset", "epa_air_qual.csv")) |>
+  select(all_of(var))
+
+write_rds(air_qual, file = here::here("dataset", "air_qual_clean.rds"))
+```
+### Are you starting by removing missing values or focusing on columns with less missing data?
+We started by focusing on columns with less missing data. For example, we prioritized keeping the data and county because it would be important to make comparisons of air quality levels in different counties. In addition, the date is consistent, so we can make conclusions about season trends that cause air quality to change over time. We are using the daily mean concentration as the measure of central tendency which determines the value that we can use to make comparisons about air quality in different local sites. In effect, the average air quality is a good indicator to determine whether we can conclude if the area has poor or high air quality. We included county and local site names for now because we can compare air quality levels within different sites such as Kenmore or Roxbury. The counties are all suffolk, so we may find this data to not be useful in the future. The latitude and longitude data is important to determine specific locations, and there are no missing values which ensures validity. 
+
+Columns we excluded were:
+
+* Source: All the source is coming from the AQS(air quality system) and it’s not helpful for our project.
+* POC: POC is the Parameter Occurrence Code which refers to the different detector devices. 
+* Daily AQI Value: We keep the PM2.5 Concentration, which is more detailed the AQI index, since AQI has lots of waste gas air. 
+* Daily Obs Count: It is used for data collection, not for air pollution itself.
+* Percent Complete: They are all 100% complete, in that case, we don’t need it for our project.
+* AQS Parameter Code and AQS Parameter Description: It is used for distinguishing different instruments that measure the same parameter at the same site. Since all the code is 88101, it is not that useful. 
+* Method Description: There is already a Method Code, a specific description is not necessary.
+* CBSA Code and CBSA Name: These are used for larger regional breakdown analysis, and we will focus on specific sites. 
+* State FIPS and County FIPS Code: With the "County" column already in place, the FIPS code is not necessary. 
+* State: All the data are from Massachusetts.  
+
+## Data Equity
+Based on the Principles for Advancing Equitable Data Practice, we must acknowledge the sensitivity of the data we are using. In particular, we will be utilizing census data for demographics about income and race distribution among particular neighborhoods in Boston (Kenmore, Roxbury, Dorchester). Under the ‘Beneficence’ framework in “Conception,” we recognize that our data will be generalizations about the distributions of race and income within these neighborhoods and do not reflect the individual variability within that area. 
+
+As for the instrumentation and the collection of data in the EPA AirData dataset, it follows the ‘Beneficence’ framework by not including any personally identifiable information (PII) as it only includes information regarding levels of pollution in the air, not anything involving people. It is also clear about the limitations the data holds, as AQI is just a scale, and people need to interpret it to their own health standards to decide what it is healthy for them. Additionally, census data that will be added to the study also avoids PII.
+
+Finally, recognizing the limitations of the data is important. The generalization of daily mean PM2.5 exposure is limited in its scope. General air quality trends do not preclude individual health risks. Personal risk is based on length of exposure, pre-existing conditions, access to healthcare, etc. Conclusions of this investigation should not be taken as individual health advice, rather a general exploration of spatial variability.
