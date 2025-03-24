@@ -91,7 +91,10 @@ ggplot(epa_data, aes(x = `Daily Mean PM2.5 Concentration`, y = `Daily AQI Value`
        x = "PM2.5 Concentration",
        y = "Air Quality Index") +
   theme_minimal()
-
+```
+1. Scatter plot of PM2.5 vs AQI value
+This scatter plot shows the relationship between the daily average concentration of PM2.5 (X-axis) and the corresponding Air Quality Index (AQI) value (Y-axis). Each blue dot represents a day's measurement. The red line is a linear regression line showing the overall trend. The strong positive correlation visible in this graph shows that as PM2.5 concentrations increase, AQI values also increase in a predictable manner. This relationship is to be expected, as PM2.5 is the main component in calculating AQI values.
+```{r}
 # 2. Bar chart of PM2.5 by month (seasonal patterns)
 epa_data$Month <- month(epa_data$Date)
 monthly_avg <- epa_data %>%
@@ -105,7 +108,10 @@ ggplot(monthly_avg, aes(x = factor(Month), y = avg_pm25)) +
        y = "Average PM2.5 Concentration") +
   scale_x_discrete(labels = month.abb) +
   theme_minimal()
-
+```
+2. Bar chart of PM2.5 by month (seasonal patterns)
+This bar chart shows the average PM2.5 concentration for each month of the year. The X-axis shows the month and the Y-axis shows the average concentration of PM2.5. This visualization reveals seasonal patterns of air pollution. You can see which months typically have higher or lower PM2.5 levels. Typically, the winter months show higher concentrations due to increased heating and temperature inversions of trapped pollutants, while the summer months may have lower concentrations.
+```{r}
 # 3. Bar chart of observation count by monitoring method
 method_counts <- epa_data %>%
   group_by(`Method Description`) %>%
@@ -120,11 +126,5 @@ ggplot(head(method_counts, 10), aes(x = reorder(`Method Description`, count), y 
        y = "Number of Observations") +
   theme_minimal()
 ```
-1. Scatter plot of PM2.5 vs AQI value
-This scatter plot shows the relationship between the daily average concentration of PM2.5 (X-axis) and the corresponding Air Quality Index (AQI) value (Y-axis). Each blue dot represents a day's measurement. The red line is a linear regression line showing the overall trend. The strong positive correlation visible in this graph shows that as PM2.5 concentrations increase, AQI values also increase in a predictable manner. This relationship is to be expected, as PM2.5 is the main component in calculating AQI values.
-
-2. Bar chart of PM2.5 by month (seasonal patterns)
-This bar chart shows the average PM2.5 concentration for each month of the year. The X-axis shows the month and the Y-axis shows the average concentration of PM2.5. This visualization reveals seasonal patterns of air pollution. You can see which months typically have higher or lower PM2.5 levels. Typically, the winter months show higher concentrations due to increased heating and temperature inversions of trapped pollutants, while the summer months may have lower concentrations.
-
 3. Bar chart of observation count by monitoring method
 This bar chart shows the ten most commonly used methods for monitoring PM2.5 concentrations. The Y-axis lists the different monitoring method descriptions, and the X-axis shows the count of observations made using each method. This visualization is important for understanding data collection methods. Different monitoring methods may have different levels of accuracy, detection limits, or biases. Datasets dominated by one or both methods provide more consistent measurements, while more diverse method sets may introduce variability that needs to be taken into account when interpreting results.
