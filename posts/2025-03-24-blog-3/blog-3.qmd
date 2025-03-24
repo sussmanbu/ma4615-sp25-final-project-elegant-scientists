@@ -2,3 +2,74 @@
 title: "Blog 3"
 editor: visual
 ---
+
+```{r}
+
+library(readr)  
+library(dplyr) 
+library(ggplot2)
+
+
+epa_data <- read_csv("dataset/epa_air_qual.csv")
+
+
+print(dim(epa_data))  
+print(names(epa_data))  
+
+### --- PM2.5 Concentration ---
+pm25_stats <- summary(epa_data$`Daily Mean PM2.5 Concentration`)
+print(pm25_stats)
+
+mean_pm25 <- mean(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+median_pm25 <- median(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+sd_pm25 <- sd(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+min_pm25 <- min(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+max_pm25 <- max(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+iqr_pm25 <- IQR(epa_data$`Daily Mean PM2.5 Concentration`, na.rm = TRUE)
+
+cat("\n--- PM2.5 Summary ---\n")
+cat("Mean PM2.5:", mean_pm25, "\n")
+cat("Median PM2.5:", median_pm25, "\n")
+cat("Standard Deviation:", sd_pm25, "\n")
+cat("Min:", min_pm25, "  Max:", max_pm25, "\n")
+cat("IQR:", iqr_pm25, "\n")
+
+### --- Site Latitude ---
+lat_stats <- summary(epa_data$`Site Latitude`)
+print(lat_stats)
+
+mean_lat <- mean(epa_data$`Site Latitude`, na.rm = TRUE)
+median_lat <- median(epa_data$`Site Latitude`, na.rm = TRUE)
+sd_lat <- sd(epa_data$`Site Latitude`, na.rm = TRUE)
+min_lat <- min(epa_data$`Site Latitude`, na.rm = TRUE)
+max_lat <- max(epa_data$`Site Latitude`, na.rm = TRUE)
+iqr_lat <- IQR(epa_data$`Site Latitude`, na.rm = TRUE)
+
+cat("\n--- Latitude Summary ---\n")
+cat("Mean Latitude:", mean_lat, "\n")
+cat("Median Latitude:", median_lat, "\n")
+cat("Standard Deviation:", sd_lat, "\n")
+cat("Min:", min_lat, "  Max:", max_lat, "\n")
+cat("IQR:", iqr_lat, "\n")
+
+### --- Site Longitude ---
+lon_stats <- summary(epa_data$`Site Longitude`)
+print(lon_stats)
+
+mean_lon <- mean(epa_data$`Site Longitude`, na.rm = TRUE)
+median_lon <- median(epa_data$`Site Longitude`, na.rm = TRUE)
+sd_lon <- sd(epa_data$`Site Longitude`, na.rm = TRUE)
+min_lon <- min(epa_data$`Site Longitude`, na.rm = TRUE)
+max_lon <- max(epa_data$`Site Longitude`, na.rm = TRUE)
+iqr_lon <- IQR(epa_data$`Site Longitude`, na.rm = TRUE)
+
+cat("\n--- Longitude Summary ---\n")
+cat("Mean Longitude:", mean_lon, "\n")
+cat("Median Longitude:", median_lon, "\n")
+cat("Standard Deviation:", sd_lon, "\n")
+cat("Min:", min_lon, "  Max:", max_lon, "\n")
+cat("IQR:", iqr_lon, "\n")
+
+```
+
+) \`\`\`
