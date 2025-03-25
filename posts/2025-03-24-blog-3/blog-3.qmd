@@ -156,4 +156,3 @@ ggplot(epa_data, aes(x = `Local Site Name`)) +
        x = "Local Site Name", y = "Count")
 ```
 4. This is a picture that shows the different number of locations throughout 2020. As we can see RoxBury and Boston Kenmore SQ are even, which is about 450, and Von Hillern Street has about 800 different locations for Air quality values.
-
