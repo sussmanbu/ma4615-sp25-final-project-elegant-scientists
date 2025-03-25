@@ -156,4 +156,24 @@ ggplot(epa_data, aes(x = `Local Site Name`)) +
        x = "Local Site Name", y = "Count")
 ```
 4. This is a picture that shows the different number of locations throughout 2020. As we can see RoxBury and Boston Kenmore SQ are even, which is about 450, and Von Hillern Street has about 800 different locations for Air quality values.
+<<<<<<< HEAD
 
+=======
+=======
+```
+
+3.  Bar chart of observation count by monitoring method This bar chart shows the ten most commonly used methods for monitoring PM2.5 concentrations. The Y-axis lists the different monitoring method descriptions, and the X-axis shows the count of observations made using each method. This visualization is important for understanding data collection methods. Different monitoring methods may have different levels of accuracy, detection limits, or biases. Datasets dominated by one or both methods provide more consistent measurements, while more diverse method sets may introduce variability that needs to be taken into account when interpreting results.
+
+```{r}
+epa_data <- readRDS("dataset/air_qual_clean.rds")
+
+discrete_vars <- sapply(epa_data, function(x) is.factor(x) || is.character(x) || is.logical(x))
+discrete_data <- epa_data[, discrete_vars]
+
+ggplot(epa_data, aes(x = `Local Site Name`)) +
+  geom_bar(fill = "steelblue") +
+  labs(title = "Distribution of Air Quality Event Types",
+       x = "Local Site Name", y = "Count")
+```
+>>>>>>> 6c2110b9bfb14e29c070cd9d9197767328d025f8
+>>>>>>> 64274d34d2c032d82df1535cbc9f4fb010ac9f8c
