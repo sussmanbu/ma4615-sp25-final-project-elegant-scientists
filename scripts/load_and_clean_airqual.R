@@ -1,7 +1,8 @@
 
 library(tidyverse)
 
-var <- c("Date","Daily Mean PM2.5 Concentration","Units","Local Site Name", "Method Code","County","Site Latitude","Site Longitude")
+var <- c("Date","Daily Mean PM2.5 Concentration", "Daily AQI Value", "Units","Local Site Name", "Method Code","Method Description",
+"County","Site Latitude","Site Longitude")
 
 air_qual <- read_csv(here::here("dataset", "epa_air_qual.csv")) |>
   select(all_of(var))
