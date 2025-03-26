@@ -82,6 +82,11 @@ Site Latitude and Site Longitude: Used for geographic analysis and visualization
 * Use figures or tables to help explain the data. For example, showing a histogram or bar chart for a particularly important variable can provide a quick overview of the values that variable tends to take.
 ```{r}
 # 2. Bar chart of PM2.5 by month (seasonal patterns)
+library(readr)  
+library(dplyr) 
+library(ggplot2)
+
+epa_data <- readRDS("dataset/air_qual_clean.rds")
 head(epa_data$Date)
  
 epa_data$Date <- as.Date(epa_data$Date)
