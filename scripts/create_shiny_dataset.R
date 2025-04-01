@@ -1,9 +1,9 @@
-# This file is purely as an example.
-
+rm(list = ls())
 library(tidyverse)
 
-loan_data <- read_rds(here::here("dataset", "loan_refusal_clean.rds")) |>
-  filter(group == "min")
+air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) 
+census_data <- read_rds(file = here::here("dataset", "census_data.rds"))
 
+data_combined <- left_join(air_qual_data, census_data, by = "site_name", relationship = "many-to-many")
 
-write_rds(loan_data, file = here::here("dataset_for_shiny", "loan_refusal_shiny.rds"))
+write_rds(data_combined, file = here::here("dataset", "air_qual_census.rds"))
