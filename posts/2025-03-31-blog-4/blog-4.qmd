@@ -1,0 +1,62 @@
+---
+title: "Blog 4: Continuing Data Analysis"
+description:  |
+  Cleaning census data, addressing trends, and preliminary modelling 
+authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-03-31"
+draft: FALSE
+---
+This week, our focus has been on two main goals:
+
+1. Access and download **census data** for racial and socioeconomic variables in neighborhoods surrounding the EPA air quality monitors.
+2. Identify **seasonal** and **spatial** variability in PM2.5 concentrations based on daily means.
+
+### Census Data
+According to the Massachusetts DEP [2017 Air Monitoring Network Plan](https://19january2021snapshot.epa.gov/sites/static/files/2018-05/documents/maplan2017.pdf), most PM2.5 sensors operate at a "neighborhood" scale, with a radius of around 0.5-4 km. Using this information, we identified census tracts that intersected a 0.5 km radius around each sensor location. We chose a conservative radius here, knowing that these intersecting tracts extended outside of that 0.5 km radius. This kept the boundaries of included tracts within the "neighborhood" scale radius.
+
+Using the '"tidycensus" library, we identified key variables including total population and race counts, median income, and poverty status. Then we used an API request to create a dataset of desired variables within the tracts that we had identified.
+
+As a preliminary investigation, we graphed the demographics of each site by racial percentage of population.
+
+```{r, echo = FALSE}
+knitr::include_graphics("images/site_demographics.png")
+```
+
+We then combined that census dataset with our existing air quality data. Our next steps here will be to investigate the variability in PM2.5 concentrations based on racial percentages and socioeconomic status.
+
+### Air Quality Drivers
+Before starting on demographic explorations of pollution exposure, we wanted to determine if there was variability in PM2.5 concentration within the neighborhoods of Boston. We also wanted to explore the possibility of seasonal variability in particulate matter concentration.
+
+```{r, echo = FALSE}
+knitr::include_graphics("images/seasonal_pm_boxplot.png")
+```
+
+We developed a fixed-effect **linear mixed model** to identify trends in PM2.5 concentration by site and season. We chose a LMM with interaction because it allows for variation in daily mean PM2.5. 
+
+```{r, echo = FALSE}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(knitr)
+
+fixed_summary <- readRDS(here::here("dataset", "air_qual_lmm.rds"))
+kable(fixed_summary, digits = 3, caption = "Fixed Effects from Linear Mixed Model")
+
+```
+
+The output of this model is shown in the table above. The baseline for this model is Kenmore Sq. in Springtime. Each combination of Site and Season (mean) is compared to that baseline PM2.5 concentration (4.91 µg/m<sup>3</sup>). Each comparison accounts for significant daily variation in PM2.5 concentration.
+
+#### Main Take-Aways
+
+* **Roxbury** generally demonstrated **lower** PM2.5 concentration than Kenmore.
+* **Dorchester** generally demonstrated **higher** PM2.5 concentration than Kenmore.
+* Seasonal trends varied by station.
+
+It is important to note that our data is from 2020, during the height of the COVID-19 pandemic. In particular, we see Spring 2020 (March, April, May) shows the lowest concentrations of PM2.5. This is unsurprising, as the majority of lockdown time occurred during that spring. These trends may not be reproducible across other years of data.
+
+### Next Steps
+This week, we combined census data with air quality parameters and identified underlying trends in the distribution of particulate matter throughout Boston.
+
+Next, we will develop a gamma model to predict demographic impact of varying particulate matter concentrations throughout the year.
+
+One challenge we anticipate is the temporal disparity between out datasets. PM2.5 is measured hourly, aggregated daily (we downloaded daily means), and then summarized over monthly or seasonal scales. Census data is only measured on an annual scale. It is possible that seasonal variability would be missed if air quality data were to be averaged to a comparable temporal resolution.
