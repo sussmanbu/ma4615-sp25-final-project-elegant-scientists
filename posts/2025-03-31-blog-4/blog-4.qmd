@@ -18,18 +18,15 @@ Using the '"tidycensus" library, we identified key variables including total pop
 
 As a preliminary investigation, we graphed the demographics of each site by racial percentage of population.
 
-```{r, echo = FALSE}
-knitr::include_graphics("images/site_demographics.png")
-```
+![](/images/site_demographics.png)
 
 We then combined that census dataset with our existing air quality data. Our next steps here will be to investigate the variability in PM2.5 concentrations based on racial percentages and socioeconomic status.
 
 ### Air Quality Drivers
 Before starting on demographic explorations of pollution exposure, we wanted to determine if there was variability in PM2.5 concentration within the neighborhoods of Boston. We also wanted to explore the possibility of seasonal variability in particulate matter concentration.
 
-```{r, echo = FALSE}
-knitr::include_graphics("images/seasonal_pm_boxplot.png")
-```
+![](/images/seasonal_pm_boxplot.png)
+
 
 We developed a fixed-effect **linear mixed model** to identify trends in PM2.5 concentration by site and season. We chose a LMM with interaction because it allows for variation in daily mean PM2.5. 
 
