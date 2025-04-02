@@ -168,29 +168,13 @@ ul.task-list li input[type="checkbox"] {
 <p>According to the Massachusetts DEP <a href="https://19january2021snapshot.epa.gov/sites/static/files/2018-05/documents/maplan2017.pdf">2017 Air Monitoring Network Plan</a>, most PM2.5 sensors operate at a “neighborhood” scale, with a radius of around 0.5-4 km. Using this information, we identified census tracts that intersected a 0.5 km radius around each sensor location. We chose a conservative radius here, knowing that these intersecting tracts extended outside of that 0.5 km radius. This kept the boundaries of included tracts within the “neighborhood” scale radius.</p>
 <p>Using the ’“tidycensus” library, we identified key variables including total population and race counts, median income, and poverty status. Then we used an API request to create a dataset of desired variables within the tracts that we had identified.</p>
 <p>As a preliminary investigation, we graphed the demographics of each site by racial percentage of population.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="images/site_demographics.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="../..\images/site_demographics.png" class="img-fluid"></p>
 <p>We then combined that census dataset with our existing air quality data. Our next steps here will be to investigate the variability in PM2.5 concentrations based on racial percentages and socioeconomic status.</p>
 </section>
 <section id="air-quality-drivers" class="level3">
 <h3 class="anchored" data-anchor-id="air-quality-drivers">Air Quality Drivers</h3>
 <p>Before starting on demographic explorations of pollution exposure, we wanted to determine if there was variability in PM2.5 concentration within the neighborhoods of Boston. We also wanted to explore the possibility of seasonal variability in particulate matter concentration.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="images/seasonal_pm_boxplot.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="../..\images/seasonal_pm_boxplot.png" class="img-fluid"></p>
 <p>We developed a fixed-effect <strong>linear mixed model</strong> to identify trends in PM2.5 concentration by site and season. We chose a LMM with interaction because it allows for variation in daily mean PM2.5.</p>
 <div class="cell">
 <div class="cell-output-display">
