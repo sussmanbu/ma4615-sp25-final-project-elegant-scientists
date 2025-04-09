@@ -34,7 +34,7 @@ With the joined dataset, we have begun early data analysis. A few early observat
 
 ### Challenges:
 
-The time scale of our datasets are very different. The census data and the epa data are within 2020, but the acs data ranges from 2015-2020. Though all of them are within 2020 so it is possible to join, finding census tracts which are deterministic may be inconclusive if we do not select a year that is significant. 
+The time scale of our datasets are very different. The census data and the epa data are within 2020, but the ACS data represents a 5-yr average from 2015-2020. Though all of them are within 2020 so it is possible to join, finding census tracts which are deterministic may be inconclusive if we do not select a year that is significant. 
 
 
 ### Next steps:
