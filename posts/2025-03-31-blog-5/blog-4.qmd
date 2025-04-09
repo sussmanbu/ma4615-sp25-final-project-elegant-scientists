@@ -1,0 +1,43 @@
+---
+title: "Blog 5: Describing and Combining Datasets"
+description:  |
+  We will explain how we plan to combine our data, initial findings, challenges and future steps. 
+authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-04-8"
+draft: FALSE
+---
+
+### Datasets combined: 
+
+**We brought together two primary datasets:**
+
+EPA Daily PM2.5 Air Quality Data (2020): This includes daily mean concentrations of fine particulate matter collected at monitor stations across Boston. It looks at the AQI value to determine how polluted the air is in an area. These values can range from 0-500 where values above 100 are unhealthy and values below 100 or below are satisfactory. Any value greater than 300 is hazardous for the entire population. Daily means are the basis for epidemiological time‑series studies, health warnings, and regulatory compliance. For example, this information can be used to quantify neighborhood exposure disparities, evaluate the impact of policy interventions such as lockdowns and validate low cost sensor networks to have better air quality. 
+
+U.S. Census Data: We pulled demographic and housing data from the Decennial Census DHC release and socioeconomic characteristics from the 5-Year American Community Survey (2015–2020). Since most sensors operate at a neighborhood scale of 0.5-4 km, we identified census tracts which would intersect a 0.5 km near each sensor location. The purpose of this was to provide a consistent geography for tabulating and comparing demographic, social, economic and housing data from one decennial census (and the American Community Survey) to the next. 
+
+
+### How we’re combining:
+
+Since our air quality data is available at a daily time scale and census data is not as frequent, we have combined the datasets spatially rather than time-wise. We aligned air quality monitor locations with nearby census tracts, creating neighborhood profiles for each monitoring site. This allows us to do comparative analysis across areas like Roxbury, Dorchester, and Kenmore. We also can link PM 2.5 monitors to census tracts in Boston. We can locate each monitor by using the longitude and latitude from the EPA file. Then we can overlay on a tract shape file to find which tract contains that point. Afterwards we can join ACS data such as the % of residents below the poverty line or racial composition to the tract. We combined the air_qual and census data using a left_join where we joined by the site name and used a many to many relationship. 
+
+
+### Initial findings: 
+
+With the joined dataset, we have begun early data analysis. A few early observations include:
+
+- Kenmore Square has a significantly higher percentage of white residents compared to Dorchester and Roxbury.
+
+- Kenmore showed higher annual PM2.5 concentrations overall, while Roxbury had slightly lower levels on average.
+
+- Spring 2020 recorded the lowest PM2.5 levels across all neighborhoods—maybe influenced by COVID-19 lockdowns and reduced activity during that time.
+
+
+### Challenges:
+
+The time scale of our datasets are very different. The census data and the epa data are within 2020, but the acs data ranges from 2015-2020. Though all of them are within 2020 so it is possible to join, finding census tracts which are deterministic may be inconclusive if we do not select a year that is significant. 
+
+
+### Next steps:
+
+We’ve successfully downloaded, cleaned, and joined our datasets. We've grouped air quality data by station-neighborhood and are in the process of modeling PM2.5 exposure using a linear model to compare concentrations across sites and time. We also want to analyze exposure disparities by comparing daily PM 2.5 levels or annual averages across tracts with different socioeconomic profiles. 
+Our next step is to build a predictive gamma model to examine how demographic and socioeconomic factors may be associated with exposure to higher levels of particulate matter. This will help us better understand potential environmental inequities in pollution exposure across Boston.
