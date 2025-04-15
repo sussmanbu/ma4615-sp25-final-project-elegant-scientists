@@ -20,6 +20,8 @@ air_qual <- read_csv(here::here("dataset", "epa_air_qual.csv")) |>
          lat = `Site Latitude`,
          long = `Site Longitude`
          ) |>
+  mutate(pm2.5_dailymean = if_else(pm2.5_dailymean < 0, 0, pm2.5_dailymean)) |>
   relocate(month, .before = pm2.5_dailymean)
+  
 
 write_rds(air_qual, file = here::here("dataset", "air_qual_clean.rds"))
