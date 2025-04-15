@@ -1,0 +1,49 @@
+---
+title: "Blog 6: Developing a GLM"
+description:  |
+  Exploration of model type and initial findings.
+authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-04-14"
+draft: FALSE
+---
+### Choosing model type
+Initially, we wanted to pursue a Gamma model for predicting PM2.5 based on racial distribution in the different Boston neighborhoods. However, the structure of our data created an issue with this model type.
+
+As shown below, the distribution of PM2.5 is **skewed right**, consistent with many other air pollution distributions. This suggests that most days have relatively low [PM2.5], with infrequent events of high particulate matter. 
+
+![](/images/pm25_distr.png)
+
+There was also a general trend of **increasing variance with increased mean**.
+
+![](/images/pm25_var_mean.png)
+Both the **distribution** and the **variance-to-mean** relationship fit a gamma model. The problem comes from the existence of true zero values within the PM2.5 daily mean measurements. Additionally, there were three instances of negative [PM2.5] values in the data, which we set equal to zero under the assumption that negative particulate matter cannot exist.
+
+Gamma models cannot handle true zero values. The alternative we found was to use a **Tweedie model**, another form of GLM that allows for true zeroes.
+
+### Creating the Tweedie models
+We wanted to explore how racial distribution was related to particulate matter exposure. When developing our models, it was important to consider **multicollinearity** within our data. For example, we could not include total population in addition to a count of each race, as those values add up to the total population of each neighborhood. A similar issue arises with percent by race, as all the racial percentages add up to 100%.
+
+To solve this issue, we tried two approaches, controlling for variation by month.
+
+#### 1. Relative percent
+This model used **percent by race** as predictor variables while purposely excluding Percent White in order for that group to serve as a reference.
+
+We found that PM2.5 increased throughout the year, likely related to increased activity later in 2020 after the most significant lockdowns.
+
+We also found that Percent Black and Percent Asian were the only significant groups relative to Percent White.
+
+Controlling for month, compared to neighborhoods with higher percentages of white residents, those with **higher proportions of Black or Asian residents** tended to experience **lower daily [PM2.5]**. 
+
+The baseling log-PM2.5 (intercept) was **2.22 µg/m<sup>3</sup>**
+
+For every 1% increase in the Black population relative to the white population, PM2.5 decreases by **~1.1%**.
+
+Similarly, for every 1% increase in the Asian population relative to the white population, PM2.5 decreases by **~1.9%**.
+
+#### 2. Simpson Diversity Index
+We also created a Tweedie model using the [Simpson Diversity Index](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/22%3A_Biodiversity/22.02%3A_Diversity_Indices), a measure of the variability of type of an individual (in this case by race) within a community. 
+
+We again found seasonal trends in the [PM2.5]. Controlling for month, we found that  the trend in Simpson's diversity was negative (-0.5966, p < 0.005), indicating that **as racial diversity increases, exposure to PM2.5 decreases**.
+
+### Findings
+Our initial hypothesis was that more diverse neighborhoods in Boston would be at increased risk of PM2.5 exposure. This hypothesis was based on relative income of these neighborhoods and the potential for increased industrial activity in those areas. However, we have found that the neighborhoods with a higher percent white population had greater exposure to PM2.5 in 2020.
