@@ -1,0 +1,123 @@
+---
+title: "Blog 7: Simple Interactive"
+description: |
+  Exploration of model type and initial findings.
+authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-04-14"
+draft: FALSE
+---
+
+### Introduction
+
+For this week’s post, I want to dive into the interactive component of our final project. The aim is to create an engaging, user-friendly visualization that allows users to explore both the big picture trends and zoom in on specific subsets of data. Interactivity will be key, as it encourages users to interact directly with the data and discover meaningful insights on their own. This post will outline the thoughts and progress made so far with the interactive and how it connects to our original hypothesis.
+
+### User Experience and Interactions
+
+Our interactive visualization should provide users with multiple levels of exploration. At the highest level, users will see broad trends or aggregated statistics, such as overall averages or comparisons. However, we also want to allow users to drill down into more specific data points. This functionality allows users to zoom in on individual observations and subsets, such as different geographic locations, demographic groups, or time periods, depending on the data context.
+
+To achieve this, I plan to implement interactive components that allow for filtering and selection. Users will be able to select from various variables to focus their exploration. Additionally, the interactive should provide clear guidance on how to use these features. This could include tooltips, instructions, or highlighted findings that guide users toward interesting patterns or anomalies.
+
+The user experience should feel personal when possible. For example, if the data is relevant to a specific geographic location or demographic, we could include features where users can input their own data (e.g., entering a zip code) to view trends that are personally relevant.
+
+### New Interactive Idea: Air Quality Lookup Based on Birthday
+
+In lecture on Friday, we brainstormed a new interactive idea that could be both fun and informative. The idea involves an **air quality lookup tool** for Boston, specifically focused on **PM2.5 levels**. This tool would allow users to input their birthday (or any date of their choosing) and see what the air quality was like in **Fenway Park** (or any location of interest) on that day. 
+
+For example, if my birthday is June 20, 2020, I could input that date and look up the air quality in Fenway on that day to see what the PM levels were like, helping me connect personal memories to environmental data. This type of interactive tool could be engaging because it allows people to explore air quality data in a way that feels personally relevant to them. It brings the data closer to the user by tying it to significant dates or locations in their lives.
+
+The interactive component could display the **PM2.5 levels** overlaid on a map or graph for the selected location and date. Additionally, users could see trends over time (e.g., comparing air quality across different birthdays or other important dates in their lives).
+
+### Steps to Implement the Idea
+
+1. **Setting Up the Framework:**
+   The first step will be to set up the interactive framework using R. I plan to use `shiny`, an R package that allows for the creation of interactive web applications. We will define input controls like dropdowns, sliders, or text boxes that users can manipulate to filter the data.
+
+2. **Connecting Inputs and Outputs:**
+   For each input the user provides, we will dynamically generate output that reflects their selections. This might include:
+   - Updating charts based on the selected date and location.
+   - Displaying a map or a time series showing air quality data for the chosen birthday.
+
+   These updates will be achieved using reactive expressions in `shiny`. A reactive expression automatically updates the output when the user changes the input.
+
+3. **Exploration and Display:**
+   We will need to determine which visuals and types of data to display at various levels of user interaction. This might include:
+   - High-level visualizations (e.g., average air quality over time).
+   - Drill-down views (e.g., specific day’s PM2.5 levels at Fenway Park).
+
+4. **Personalization and User Engagement:**
+   If possible, we want to give the user a sense of personal engagement. For example, users could enter their birthday or any date, and the visualizations could reflect air quality trends for that day. This creates a more personalized experience that connects the data to the user’s own life.
+
+### Connection to Original Hypothesis
+
+The interactive visualization will help test and explore the hypotheses we developed earlier in the project. Specifically, it will allow users to explore how environmental factors like air quality vary on specific days, potentially influencing their health or experiences. For example, if the hypothesis is about how air quality affects people’s daily lives, allowing users to explore the data on their own birthday could help bring the data to life and make it more tangible.
+
+### Inputs and Outputs
+
+The inputs for the interactive will include:
+- **Text input** for users to enter their **birthday** or any date of interest.
+- **Dropdown menu** for selecting the location (e.g., Fenway Park, other areas in Boston).
+- **Date picker** for users to select a custom date.
+
+The outputs will include:
+- **Dynamic visualizations** showing air quality data, such as a graph of PM2.5 levels for the selected date and location.
+- **Summary statistics** such as average PM2.5 levels for the chosen date range or location.
+- **Map visualization** showing the location of monitoring stations and PM2.5 concentrations.
+
+The interaction works in such a way that when a user inputs their birthday (or any date), the corresponding output will be recalculated and displayed. This makes the process seamless and intuitive, allowing users to directly connect with the data.
+
+### Code Implementation
+
+Here’s a basic structure of how the code for the interactive might look using `shiny`:
+
+```r
+library(shiny)
+library(ggplot2)
+library(lubridate)
+
+# Sample air quality data
+data <- data.frame(
+  date = seq(ymd("2020-01-01"), ymd("2020-12-31"), by = "days"),
+  pm25 = rnorm(366, mean = 10, sd = 5), # Random PM2.5 levels
+  location = rep("Fenway Park", 366)
+)
+
+# UI definition
+ui <- fluidPage(
+  titlePanel("Air Quality Lookup"),
+  sidebarLayout(
+    sidebarPanel(
+      dateInput("birthday", "Enter Your Birthday:", value = "2020-06-20"),
+      selectInput("location", "Choose Location:", choices = unique(data$location))
+    ),
+    mainPanel(
+      plotOutput("air_quality_plot"),
+      textOutput("air_quality_summary")
+    )
+  )
+)
+
+# Server logic
+server <- function(input, output) {
+  
+  selected_data <- reactive({
+    data[data$date == input$birthday & data$location == input$location, ]
+  })
+  
+  output$air_quality_plot <- renderPlot({
+    ggplot(selected_data(), aes(x = date, y = pm25)) +
+      geom_line() +
+      labs(title = "PM2.5 Levels on Your Birthday", x = "Date", y = "PM2.5 (µg/m³)") +
+      theme_minimal()
+  })
+  
+  output$air_quality_summary <- renderText({
+    paste("PM2.5 Level on", input$birthday, ":", selected_data()$pm25)
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+### Conclusion
+
+This interactive component will significantly enhance user engagement by allowing exploration of the data through personal inputs and dynamic visualizations. The idea of looking up air quality data on a user’s birthday (or any significant date) makes the experience feel more personal and relevant. As we move forward, we will refine the interactions and ensure that the design aligns with the original goals of the project. The ability to explore data and discover insights interactively is crucial to the success of the final project, and I look forward to seeing how the interactive evolves.
