@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="We describe the sources of our data and the cleaning process.">
+<meta name="dcterms.date" content="2025-04-14">
+<meta name="description" content="Exploration of model type and initial findings.">
 
-<title>Data – MA [46]15 Final Project Elegant Scientists</title>
+<title>Blog 7: Simple Interactive – MA [46]15 Final Project Elegant Scientists</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,22 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,18 +69,47 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">MA [46]15 Final Project Elegant Scientists</span>
     </a>
   </div>
@@ -90,19 +120,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About Team Elegant Scientists</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./big_picture.html"> 
+    <a class="nav-link" href="../../big_picture.html"> 
 <span class="menu-text">Big Picture</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./analysis.html"> 
+    <a class="nav-link" href="../../analysis.html"> 
 <span class="menu-text">Analysis</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./data.html" aria-current="page"> 
+    <a class="nav-link" href="../../data.html"> 
 <span class="menu-text">Data</span></a>
   </li>  
 </ul>
@@ -113,115 +143,124 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Blog 7: Simple Interactive</h1>
+                  <div>
+        <div class="description">
+          <p>Exploration of model type and initial findings.</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 14, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#what-makes-a-good-data-set" id="toc-what-makes-a-good-data-set" class="nav-link active" data-scroll-target="#what-makes-a-good-data-set">What makes a good data set?</a></li>
-  <li><a href="#where-to-keep-data" id="toc-where-to-keep-data" class="nav-link" data-scroll-target="#where-to-keep-data">Where to keep data?</a>
-  <ul class="collapse">
-  <li><a href="#sharing-your-data" id="toc-sharing-your-data" class="nav-link" data-scroll-target="#sharing-your-data">Sharing your data</a></li>
-  <li><a href="#clean-data-script" id="toc-clean-data-script" class="nav-link" data-scroll-target="#clean-data-script">Clean data script</a></li>
-  </ul></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Data</h1>
-</div>
-
-<div>
-  <div class="description">
-    We describe the sources of our data and the cleaning process.
-  </div>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
 
 
-</header>
 
-
-<p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"></p>
-<p>This comes from the file <code>data.qmd</code>.</p>
-<p>Your first steps in this project will be to find data to work on.</p>
-<p>I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.</p>
-<p>Initially, you will study <em>one dataset</em> but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable. Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.</p>
-<section id="what-makes-a-good-data-set" class="level2">
-<h2 class="anchored" data-anchor-id="what-makes-a-good-data-set">What makes a good data set?</h2>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<p>For this week’s post, I want to dive into the interactive component of our final project. The aim is to create an engaging, user-friendly visualization that allows users to explore both the big picture trends and zoom in on specific subsets of data. Interactivity will be key, as it encourages users to interact directly with the data and discover meaningful insights on their own. This post will outline the thoughts and progress made so far with the interactive and how it connects to our original hypothesis.</p>
+</section>
+<section id="user-experience-and-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="user-experience-and-interactions">User Experience and Interactions</h3>
+<p>Our interactive visualization should provide users with multiple levels of exploration. At the highest level, users will see broad trends or aggregated statistics, such as overall averages or comparisons. However, we also want to allow users to drill down into more specific data points. This functionality allows users to zoom in on individual observations and subsets, such as different geographic locations, demographic groups, or time periods, depending on the data context.</p>
+<p>To achieve this, I plan to implement interactive components that allow for filtering and selection. Users will be able to select from various variables to focus their exploration. Additionally, the interactive should provide clear guidance on how to use these features. This could include tooltips, instructions, or highlighted findings that guide users toward interesting patterns or anomalies.</p>
+<p>The user experience should feel personal when possible. For example, if the data is relevant to a specific geographic location or demographic, we could include features where users can input their own data (e.g., entering a zip code) to view trends that are personally relevant.</p>
+</section>
+<section id="new-interactive-idea-air-quality-lookup-based-on-birthday" class="level3">
+<h3 class="anchored" data-anchor-id="new-interactive-idea-air-quality-lookup-based-on-birthday">New Interactive Idea: Air Quality Lookup Based on Birthday</h3>
+<p>In lecture on Friday, we brainstormed a new interactive idea that could be both fun and informative. The idea involves an <strong>air quality lookup tool</strong> for Boston, specifically focused on <strong>PM2.5 levels</strong>. This tool would allow users to input their birthday (or any date of their choosing) and see what the air quality was like in <strong>Fenway Park</strong> (or any location of interest) on that day.</p>
+<p>For example, if my birthday is June 20, 2020, I could input that date and look up the air quality in Fenway on that day to see what the PM levels were like, helping me connect personal memories to environmental data. This type of interactive tool could be engaging because it allows people to explore air quality data in a way that feels personally relevant to them. It brings the data closer to the user by tying it to significant dates or locations in their lives.</p>
+<p>The interactive component could display the <strong>PM2.5 levels</strong> overlaid on a map or graph for the selected location and date. Additionally, users could see trends over time (e.g., comparing air quality across different birthdays or other important dates in their lives).</p>
+</section>
+<section id="steps-to-implement-the-idea" class="level3">
+<h3 class="anchored" data-anchor-id="steps-to-implement-the-idea">Steps to Implement the Idea</h3>
+<ol type="1">
+<li><p><strong>Setting Up the Framework:</strong> The first step will be to set up the interactive framework using R. I plan to use <code>shiny</code>, an R package that allows for the creation of interactive web applications. We will define input controls like dropdowns, sliders, or text boxes that users can manipulate to filter the data.</p></li>
+<li><p><strong>Connecting Inputs and Outputs:</strong> For each input the user provides, we will dynamically generate output that reflects their selections. This might include:</p>
 <ul>
-<li>Data you are interested in and care about.</li>
-<li>Data where there are a lot of potential questions that you can explore.</li>
-<li>A data set that isn’t completely cleaned already.</li>
-<li>Multiple sources for data that you can combine.</li>
-<li>Some type of time and/or location component.</li>
+<li>Updating charts based on the selected date and location.</li>
+<li>Displaying a map or a time series showing air quality data for the chosen birthday.</li>
 </ul>
-</section>
-<section id="where-to-keep-data" class="level2">
-<h2 class="anchored" data-anchor-id="where-to-keep-data">Where to keep data?</h2>
-<p>Below 50mb: In <code>dataset</code> folder</p>
-<p>Above 50mb: In <code>dataset-ignore</code> folder which you will have to create manually. This folder will be ignored by <code>git</code> so you’ll have to manually sync these files across your team.</p>
-<section id="sharing-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="sharing-your-data">Sharing your data</h3>
-<p>For small datasets (&lt;50mb), you can use the <code>dataset</code> folder that is tracked by github. Stage and commit the files just like you would any other file.</p>
-<p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
-<p>Your <a href="./scripts/clean_data.R">clean_data.R</a> file in the <code>scripts</code> folder is the file where you will import the raw data that you download, clean it, and write <code>.rds</code> file(s) (using <code>write_rds</code>) that you’ll load in your analysis page. If desirable, you can have multiple scripts that produce different derived data sets, just make sure to link to them on this page.</p>
-<p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>). Instead, use the <code>here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.</p>
-</section>
-<section id="clean-data-script" class="level3">
-<h3 class="anchored" data-anchor-id="clean-data-script">Clean data script</h3>
-<p>The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them. This file might create a derivative data set that you then use for your subsequent analysis. Note that you don’t need to run this script from every post/page. Instead, you can load in the results of this script, which will usually be <code>.rds</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes. To link to this file, you can use <code>[cleaning script](/scripts/clean_data.R)</code> wich appears as <a href="./scripts/clean_data.R">cleaning script</a>.</p>
-<hr>
-</section>
-</section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
+<p>These updates will be achieved using reactive expressions in <code>shiny</code>. A reactive expression automatically updates the output when the user changes the input.</p></li>
+<li><p><strong>Exploration and Display:</strong> We will need to determine which visuals and types of data to display at various levels of user interaction. This might include:</p>
 <ul>
-<li><p>Describe where/how to find data. https://www.epa.gov/outdoor-air-quality-data/download-daily-data</p>
-<ul>
-<li>Why was the data collected/curated? Who put it together? (This is important, if you don’t know why it was collected then that might not be a good dataset to look at. The epa is a government organization that checks air quality data in boston neighborhoods.</li>
+<li>High-level visualizations (e.g., average air quality over time).</li>
+<li>Drill-down views (e.g., specific day’s PM2.5 levels at Fenway Park).</li>
 </ul></li>
-<li><p>Describe the different data files used and what each variable means.</p>
-<ul>
-<li>If you have many variables then only describe the most relevant ones, possibly grouping together variables that are similar, and summarize the rest.</li>
-</ul></li>
-</ul>
-<p>Date: Used to analyze time trends, such as seasonal changes or long-term trends. Daily Mean PM2.5 Concentration: Core indicators, important values for measuring air quality. Units: Ensure data consistency (µg/m³) Local Site Name: Helps identify data sources, especially when comparing different sites. Method code: Used for data verification to ensure consistency of measurement methods. County: Provide context for regional analysis, comparing air quality in different counties. Site Latitude and Site Longitude: Used for geographic analysis and visualization.</p>
-<ul>
-<li><p>Use figures or tables to help explain the data. For example, showing a histogram or bar chart for a particularly important variable can provide a quick overview of the values that variable tends to take.</p></li>
-<li><p>Describe any cleaning you had to do for your data.</p>
-<ul>
-<li><p>You <em>must</em> include a link to your <code>clean_data.R</code> file. https://github.com/sussmanbu/ma4615-sp25-final-project-elegant-scientists/blob/main/scripts/load_and_clean_airqual.R</p></li>
-<li><p>Rename variables and recode factors to make data more clear.</p></li>
-<li><p>Also, describe any additional R packages you used outside of those covered in class.</p></li>
-<li><p>Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.</p></li>
-<li><p>Some repetition of what you do in your <code>clean_data.R</code> file is fine and encouraged if it helps explain what you did.</p></li>
-</ul></li>
-<li><p>Organization, clarity, cleanliness of the page</p>
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.</li>
-<li>This page should be self-contained.</li>
-</ul></li>
-</ul>
+<li><p><strong>Personalization and User Engagement:</strong> If possible, we want to give the user a sense of personal engagement. For example, users could enter their birthday or any date, and the visualizations could reflect air quality trends for that day. This creates a more personalized experience that connects the data to the user’s own life.</p></li>
+</ol>
+</section>
+<section id="connection-to-original-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="connection-to-original-hypothesis">Connection to Original Hypothesis</h3>
+<p>The interactive visualization will help test and explore the hypotheses we developed earlier in the project. Specifically, it will allow users to explore how environmental factors like air quality vary on specific days, potentially influencing their health or experiences. For example, if the hypothesis is about how air quality affects people’s daily lives, allowing users to explore the data on their own birthday could help bring the data to life and make it more tangible.</p>
+</section>
+<section id="inputs-and-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="inputs-and-outputs">Inputs and Outputs</h3>
+<p>The inputs for the interactive will include: - <strong>Text input</strong> for users to enter their <strong>birthday</strong> or any date of interest. - <strong>Dropdown menu</strong> for selecting the location (e.g., Fenway Park, other areas in Boston). - <strong>Date picker</strong> for users to select a custom date.</p>
+<p>The outputs will include: - <strong>Dynamic visualizations</strong> showing air quality data, such as a graph of PM2.5 levels for the selected date and location. - <strong>Summary statistics</strong> such as average PM2.5 levels for the chosen date range or location. - <strong>Map visualization</strong> showing the location of monitoring stations and PM2.5 concentrations.</p>
+<p>The interaction works in such a way that when a user inputs their birthday (or any date), the corresponding output will be recalculated and displayed. This makes the process seamless and intuitive, allowing users to directly connect with the data.</p>
+</section>
+<section id="code-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="code-implementation">Code Implementation</h3>
+<p>Here’s a basic structure of how the code for the interactive might look using <code>shiny</code>:</p>
+<p>```r library(shiny) library(ggplot2) library(lubridate)</p>
+</section>
+<section id="sample-air-quality-data" class="level1">
+<h1>Sample air quality data</h1>
+<p>data &lt;- data.frame( date = seq(ymd(“2020-01-01”), ymd(“2020-12-31”), by = “days”), pm25 = rnorm(366, mean = 10, sd = 5), # Random PM2.5 levels location = rep(“Fenway Park”, 366) )</p>
+</section>
+<section id="ui-definition" class="level1">
+<h1>UI definition</h1>
+<p>ui &lt;- fluidPage( titlePanel(“Air Quality Lookup”), sidebarLayout( sidebarPanel( dateInput(“birthday”, “Enter Your Birthday:”, value = “2020-06-20”), selectInput(“location”, “Choose Location:”, choices = unique(data$location)) ), mainPanel( plotOutput(“air_quality_plot”), textOutput(“air_quality_summary”) ) ) )</p>
+</section>
+<section id="server-logic" class="level1">
+<h1>Server logic</h1>
+<p>server &lt;- function(input, output) {</p>
+<p>selected_data &lt;- reactive({ data[data<span class="math inline">\(date == input\)</span>birthday &amp; data<span class="math inline">\(location == input\)</span>location, ] })</p>
+<p>output$air_quality_plot &lt;- renderPlot({ ggplot(selected_data(), aes(x = date, y = pm25)) + geom_line() + labs(title = “PM2.5 Levels on Your Birthday”, x = “Date”, y = “PM2.5 (µg/m³)”) + theme_minimal() })</p>
+<p>output<span class="math inline">\(air_quality_summary &lt;- renderText({
+    paste("PM2.5 Level on", input\)</span>birthday, “:”, selected_data()$pm25) }) }</p>
+</section>
+<section id="run-the-application" class="level1">
+<h1>Run the application</h1>
+<p>shinyApp(ui = ui, server = server)</p>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>This interactive component will significantly enhance user engagement by allowing exploration of the data through personal inputs and dynamic visualizations. The idea of looking up air quality data on a user’s birthday (or any significant date) makes the experience feel more personal and relevant. As we move forward, we will refine the interactions and ensure that the design aligns with the original goals of the project. The ability to explore data and discover insights interactively is crucial to the success of the final project, and I look forward to seeing how the interactive evolves.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
