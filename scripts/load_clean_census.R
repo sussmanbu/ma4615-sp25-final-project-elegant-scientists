@@ -3,6 +3,7 @@ rm(list = ls()) #clear environment
 
 library(tidycensus)
 library(tidyverse)
+library(purrr)
 
 # census API key requested Mar. 31, 2025 by CRM
 census_api_key("011ae02d8a0a6a5f13e1341184c745503846f0a9", install = TRUE, overwrite = TRUE)
@@ -11,10 +12,14 @@ readRenviron("~/.Renviron")
 # show variable codes for 2020 census Demographic and Housing Characteristics?
 variable.options <- load_variables(2020, "dhc")
 
-# tracts intersecting 0.5 km radius around each sensor (min range 'neighborhood' scale EPA)
-FIPS <- c("25025010103", "25025010104", "25025010206", "25025010204", "25025010205", # kenmore
-            "25025081700", "25025080300", "25025080401", "25025080601", "25025090700", # roxbury
-            "25025061101", "25025061201", "25025981201") # von hillern dorchester
+# tract list extracted from 0.5km radius of monitoring sites
+tract_list <- read_rds(file = here::here("dataset", "intersect_tracts.rds")) |>
+  st_drop_geometry() |>
+  distinct(GEOID, NAME)|>
+  mutate(
+    state_fips = substr(GEOID, 1, 2),
+    county_fips = substr(GEOID, 3, 5)
+  ) 
 
 # identify race variables and total pop for dec census
 race_vars <- c(total_pop = "P10_001N", white = "P10_003N", black = "P10_004N", 
@@ -31,30 +36,25 @@ socio_vars <- c(
 )
 
 # create df with variables of interest from the desired time and locations
-dhc_data <- get_decennial(
-  geography = "tract",
-  variables = race_vars,
-  state = "25", #MA
-  county = "025", # Suffolk County
-  year = 2020,
-  sumfile = "dhc", # Demographic and Housing Characteristics
-  geometry = FALSE,
-  output = "wide",  # wide format gives one row per tract
-  cache_table = TRUE
-)  |>
-  # keep only intersecting tracts
-  filter(GEOID %in% FIPS) |> 
-  # add site names by intersecting tract
+dhc_data <- map_dfr(
+  split(tract_list, paste(tract_list$state_fips, tract_list$county_fips)),
+  function(df) {
+    get_decennial(
+      geography = "tract",
+      variables = race_vars,
+      state = df$state_fips[1],
+      county = df$county_fips[1],
+      year = 2020,
+      sumfile = "dhc",
+      geometry = FALSE,
+      output = "wide",
+      cache_table = TRUE
+    ) |>
+      filter(GEOID %in% df$GEOID) |>
+      left_join(df, by = "GEOID")
+  }
+) |>
   mutate(
-    site_name = case_when(
-      GEOID %in% c("25025010103", "25025010104", "25025010206", "25025010204", "25025010205") ~ "BOSTON KENMORE SQ",
-      GEOID %in% c("25025081700", "25025080300", "25025080401", "25025080601", "25025090700") ~ "DUDLEY SQUARE ROXBURY",
-      GEOID %in% c("25025061101", "25025061201", "25025981201") ~ "VON HILLERN ST",
-      TRUE ~ NA_character_
-    )
-  ) |>
- # add columns for percent by race
-   mutate(
     pct_white = white / total_pop * 100, pct_black = black / total_pop * 100,
     pct_native = native / total_pop * 100, pct_asian = asian / total_pop * 100,
     pct_pacific = pacific / total_pop * 100, pct_other_race = other_race / total_pop * 100,
@@ -63,34 +63,38 @@ dhc_data <- get_decennial(
   )
 
 # create df of socio variables from ACS
-socio_data <- get_acs(
-  geography = "tract",
-  state = "25",
-  county = "025",
-  year = 2020,
-  variables = socio_vars,
-  survey = "acs5",
-  output = "wide",
-  cache_table = TRUE
-)  |>
-  # keep only intersecting tracts
-  filter(GEOID %in% FIPS) |> 
-  # add site names by intersecting tract
-  mutate(
-    site_name = case_when(
-      GEOID %in% c("25025010103", "25025010104", "25025010206", "25025010204", "25025010205") ~ "BOSTON KENMORE SQ",
-      GEOID %in% c("25025081700", "25025080300", "25025080401", "25025080601", "25025090700") ~ "DUDLEY SQUARE ROXBURY",
-      GEOID %in% c("25025061101", "25025061201", "25025981201") ~ "VON HILLERN ST",
-      TRUE ~ NA_character_
-    )
-  ) |>
+socio_data <- map_dfr(
+  split(tract_list, paste(tract_list$state_fips, tract_list$county_fips)),
+  function(df) {
+    get_acs(
+      geography = "tract",
+      variables = socio_vars,
+      state = df$state_fips[1],
+      county = df$county_fips[1],
+      year = 2020,
+      survey = "acs5",
+      output = "wide",
+      cache_table = TRUE
+    ) |>
+      filter(GEOID %in% df$GEOID) |>
+      left_join(df, by = "GEOID")
+  }
+) |>
   mutate(
     pct_poverty = 100 * income_below_povertyE / poverty_universeE
   )
 
-census_data <- full_join(dhc_data, socio_data, by = c("GEOID", "site_name")) |>
-  select(-"NAME.x", -"NAME.y") |>
+# combine dhs and socio
+
+census_data <- full_join(dhc_data, socio_data, by = "GEOID") |>
   rename(FIPS = GEOID) |>
-  relocate(site_name, .after = FIPS)
+  select(
+    -ends_with("M"),                             # drop all MOE columns
+    -matches("^NAME(\\.x|\\.y)*$"),              # drop all NAME.* columns
+    -matches("^state_fips"),                     # drop all state_fips.* columns
+    -matches("^county_fips")                     # drop all county_fips.* columns
+  ) |>
+  relocate(FIPS) |>
+  filter(total_pop != 0, !is.na(total_pop)) 
 
 write_rds(census_data, file = here::here("dataset", "census_data.rds"))

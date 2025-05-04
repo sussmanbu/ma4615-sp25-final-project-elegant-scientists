@@ -10,16 +10,13 @@ pct_race <- c(
   "pct_other_race", "pct_two_or_more", "pct_hispanic", "pct_not_hispanic"
 )
 
+tracts <- read_rds(file = here::here("dataset", "intersect_tracts.rds"))
+
 air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) |>
-  group_by(site_name, month)|>
+  group_by(month)|>
   summarize(across())
 
-census_data <- read_rds(file = here::here("dataset", "census_data.rds")) |>
-  group_by(site_name) |>
-  summarize(
-    across(all_of(race_vars), sum, na.rm = TRUE),
-    across(all_of(pct_race), mean, na.rm = TRUE)
-  )
+census_data <- read_rds(file = here::here("dataset", "census_data.rds")) 
 
 
 data_combined <- air_qual_data |>
