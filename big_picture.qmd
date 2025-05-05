@@ -33,7 +33,7 @@ Try the interactive map below to explore air quality around the coast.
 ---
 
 ### Explore air pollution around the coast
-We used the shinyapps.io site since the shiny-live chunk was not working. Here is the link to our interactive shiny model: https://gshivnauth.shinyapps.io/dataset_for_shiny/
+We used the shinyapps.io site since the shiny-live chunk was not working. Here is the link to our interactive shiny model: [Air Quality Explorer](https://gshivnauth.shinyapps.io/dataset_for_shiny/)
 
 
 
