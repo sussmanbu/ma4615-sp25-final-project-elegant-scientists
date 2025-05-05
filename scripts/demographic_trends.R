@@ -2,6 +2,7 @@ rm(list = ls())
 
 library(tidyverse)
 library(mediocrethemes)
+library(ggsci)
 
 census_data <- read_rds(file = here::here("dataset", "census_neighborhood.rds")) |>
   select(-GEOID,-site_id, -starts_with("pct_"))
@@ -49,13 +50,14 @@ neighborhood_demog <- ggplot(census_long, aes(x = site, y = percentage, fill = r
     y = "Percent of Total Population",
     fill = "Race"
   ) +
-  theme_mediocre() +
+  theme_minimal() +
+  scale_fill_jama() +
   theme(
-    axis.text.x = element_text(hjust = 1),
-    axis.text.y = element_text(size = 9),
-    strip.text = element_text(face = "bold", size = 10)
+    #axis.text.x = element_text(hjust = 4),
+    #axis.text.y = element_text(size = 12),
+    strip.text = element_text(face = "bold", size = 14)
   )
 neighborhood_demog
 
 ggsave(filename = here::here("images", "site_demographics.png"),
-       plot = neighborhood_demog)
+      plot = neighborhood_demog)

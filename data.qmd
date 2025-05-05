@@ -7,90 +7,161 @@ draft: false
 
 ![](images/data-import-cheatsheet-thumbs.png)
 
+## Air Quality Data
+
+For this project, we combined data from the [EPA AirNow](https://www.epa.gov/outdoor-air-quality-data/download-daily-data) database with US Census data obtained using the **tidycensus** package. We were interested in how air quality metrics -- specifically PM2.5 -- changed by location. Trends in air quality by neighborhood could give us insight into air pollution exposure by race across the East Coast.
+
+Originally, we had chosen three sited in Boston. however, to improve our investigation, we obtained additional sites in Massachusetts, New York, Pennsylvania, New Jersey, Delaware, and Maryland.
+
+The locations of each EPA air quality monitoring station is shown below:
+
+** Add maps here **
+
+Each state's data was downloaded for all of 2020 seperately, and had to be joined together in the [load_and_clean_air_qual](here::here(/scripts/load_and_clean_air_qual.R)) file. The columns of interest included:
+
+* Date: Allowws for trends in air quality parameters over time
+* State: To distinguish groups
+* GEOID: Location associated with each monitor, for combinging datasets later
+* Daily Mean PM2.5: Air quality measurement of particulate matter
+* AQI: Overall daily Air Quality Index, includes other parameters
+* Units: for consistency, (µg/m³)
+* Site Name
+* Side ID
+* Site Latitude and Longitude: For location needs
+
+Notably in the data, the distribution of Daily Mean PM2.5 is right skewed. This is frequent in air quality data, as most days have generally low concentrations of particulate matter at a wide geographic scale.
+
+```{r, echo=FALSE}
+library(tidyverse)
+
+dataset <- read_rds(file = here::here("dataset/air_qual_census.rds"))
+
+pm2.5_dist <- ggplot(dataset, aes(x = pm2.5_dailymean)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of PM2.5 Daily Mean") +
+  theme_minimal()
+pm2.5_dist
+```
+
+It should also be mentioned that any readings of PM2.5 **below zero** were considered within the error range of the instrumentation, and **set to zero** for this analysis.
+
+## Census Data
+
+Getting appropriate census data was more complicated. First, we needed to identify the appropriate census tracts surrounding each monitoring site. This was done in the [identify_tracts](here::here(scripts/identify_tracts.R)) file.
+
+According to the EPA, most air quality monitoring sites have a "neighborhood scale" radius, representing a spatial range from **0.5** km to **4 km**. Using the minimum range value (0.5 km) we attempted to identify a buffer zone around each monitoring site based on unique latitude and longitude.
+
+This included using the sf library and a unit transformation to meters.
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(sf)
+library(tidycensus)
+
+# Census API was included here
+
+air_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds"))
+
+# identify individual site points
+site_points <- air_data |>
+  select(site_id, site_name, state, lat, long) |>
+  distinct()
+
+# reproject map points as sf features
+site_sf <- st_as_sf(site_points, coords = c("long", "lat"), crs = 4326)
+site_proj <- st_transform(site_sf, crs = 3857) # meters
+
+# use census tracts to get 0.5 km intersecting buffer
+site_buffers <- st_buffer(site_proj, dist = 500)
+
+```
+
+Once buffers were established, the intersecting tracts were extracted from the ACS using the **tidycensus** package and were joined to the dataframe, creating the new variable **neighborhood** with the naming convention "state_#" based on the monitoring site it intersects.
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+unique_states <- unique(site_points$state)
+
+tracts <- map_dfr(unique_states, ~ get_acs(
+  geography = "tract",
+  variables = "B01003_001",  
+  state = .x,
+  geometry = TRUE,
+  year = 2020
+))
+
+tracts_proj <- st_transform(tracts, crs = 3857)
+
+tracts_joined <- st_join(tracts_proj, site_buffers, join = st_intersects, left = FALSE)
+tracts_named <- tracts_joined |>
+  group_by(state, site_id) |>
+  mutate(neighborhood = paste0(tolower(state), "_", row_number())) |>
+  ungroup()
+air_qual_tracts <- tracts_named |>
+  select(site_id, GEOID, NAME, estimate, neighborhood)
+
+write_rds(air_qual_tracts, file = here::here("dataset", "intersect_tracts.rds"))
+
+```
+
+Then, using the intersecting tracts identified, census data could be extracted in [load_clean_census.R](here::here(/load_clean_census.R)).
+
+Population characteristics and socioeconomic variables of interest were identified as:
+
+* Total Population
+* Race Counts (White, Black, Asian, Pacific Islander, Other, Two or More)
+* Hispanic or Not Hispanic
+* Median Income
+* Income Below Poverty
+
+Count variables were also used to calculate population percentages.
+
+## Combining datasets
+
+Finally, in the [clean_data.R](here:here(/scripts/clean_data.R)) file, the census data, air quality data, neighborhood information (**tracts** df) were all combined. To simplify data structure, geometry was removed from the large data frame.
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+library(tidyverse)
+
+race_vars <- c(
+  "total_pop", "white", "black", "native", "asian", "pacific",
+  "other_race", "two_or_more", "hispanic", "not_hispanic"
+)
+pct_race <- c(
+  "pct_white", "pct_black", "pct_native", "pct_asian", "pct_pacific",
+  "pct_other_race", "pct_two_or_more", "pct_hispanic", "pct_not_hispanic"
+)
+
+tracts <- read_rds(file = here::here("dataset", "intersect_tracts.rds"))
+
+air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) |>
+  group_by(month)|>
+  summarize(across())
+
+census_data <- read_rds(file = here::here("dataset", "census_data.rds")) |> 
+  rename(GEOID = FIPS)
+
+tracts_joined <- tracts |> 
+  left_join(census_data, by = "GEOID")
+
+data_combined <- air_qual_data |>
+  group_by(site_name, month) |>
+  left_join(tracts_joined, by = "site_id") |>
+  select(-NAME,-method_code,-method_desc,-units,-geometry)
+
+write_rds(data_combined, file = here::here("dataset", "air_qual_census.rds"))
+write_rds(tracts_joined, file = here::here("dataset", "census_neighborhood.rds"))
+
+```
+
+Population distributions for each neighborhood within the states of interest are shown below.
+
+![](images/site_demographics.png)
 
 This comes from the file `data.qmd`.
 
-Your first steps in this project will be to find data to work on.
-
-I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.
-
-
-Initially, you will study _one dataset_ but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
-Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.
-
-
-## What makes a good data set?
-
-* Data you are interested in and care about.
-* Data where there are a lot of potential questions that you can explore.
-* A data set that isn't completely cleaned already.
-* Multiple sources for data that you can combine.
-* Some type of time and/or location component.
-
-
-## Where to keep data?
-
-
-Below 50mb: In `dataset` folder
-
-Above 50mb: In `dataset-ignore` folder which you will have to create manually. This folder will be ignored by `git` so you'll have to manually sync these files across your team.
-
-### Sharing your data
-
-
-For small datasets (<50mb), you can use the `dataset` folder that is tracked by github. Stage and commit the files just like you would any other file.
-
-For larger datasets, you'll need to create a new folder in the project root directory named `dataset-ignore`. This will be ignored by git (based off the `.gitignore` file in the project root directory) which will help you avoid issues with Github's size limits. Your team will have to manually make sure the data files in `dataset-ignore` are synced across team members.
-
-Your [clean_data.R](/scripts/clean_data.R) file in the `scripts` folder is the file where you will import the raw data that you download, clean it, and write `.rds` file(s) (using `write_rds`) that you'll load in your analysis page. If desirable, you can have multiple scripts that produce different derived data sets, just make sure to link to them on this page.
-
-You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
-Instead, use the `here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
-
-### Clean data script
-
-The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
-This file might create a derivative data set that you then use for your subsequent analysis.
-Note that you don't need to run this script from every post/page.
-Instead, you can load in the results of this script, which will usually be `.rds` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use `[cleaning script](/scripts/clean_data.R)` wich appears as [cleaning script](/scripts/clean_data.R). 
-
-----
-
-## Rubric: On this page
-
-You will
-
-* Describe where/how to find data.
-  https://www.epa.gov/outdoor-air-quality-data/download-daily-data
-  
-  * Why was the data collected/curated? Who put it together? (This is important, if you don't know why it was collected then that might not be a good dataset to look at.
-  The epa is a government organization that checks air quality data in boston         neighborhoods. 
-  
-* Describe the different data files used and what each variable means. 
-  * If you have many variables then only describe the most relevant ones, possibly grouping together variables that are similar, and summarize the rest.
-
-Date: Used to analyze time trends, such as seasonal changes or long-term trends.
-Daily Mean PM2.5 Concentration: Core indicators, important values for measuring air quality. 
-Units: Ensure data consistency (µg/m³)
-Local Site Name: Helps identify data sources, especially when comparing different sites. 
-Method code: Used for data verification to ensure consistency of measurement methods. 
-County: Provide context for regional analysis, comparing air quality in different counties. 
-Site Latitude and Site Longitude: Used for geographic analysis and visualization.
-
-  
-* Use figures or tables to help explain the data. For example, showing a histogram or bar chart for a particularly important variable can provide a quick overview of the values that variable tends to take.
-
-* Describe any cleaning you had to do for your data.
-  * You *must* include a link to your `clean_data.R` file.
-  https://github.com/sussmanbu/ma4615-sp25-final-project-elegant-scientists/blob/main/scripts/load_and_clean_airqual.R
-  
-  * Rename variables and recode factors to make data more clear.
-  * Also, describe any additional R packages you used outside of those covered in class.
-  * Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.
-  
-  * Some repetition of what you do in your `clean_data.R` file is fine and encouraged if it helps explain what you did.
-  
-* Organization, clarity, cleanliness of the page
-  * Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.
-  * This page should be self-contained.
