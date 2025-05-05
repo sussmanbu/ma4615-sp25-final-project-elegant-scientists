@@ -5,7 +5,39 @@ toc: true
 draft: false
 ---
 
-![](https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg)
+![](images/clean_skies.jpeg)
+
+## Air Quality by Season
+
+Daily air quality parameters like particulate matter concentration are highly variable, especially on a regional scale. The air quality data for this project was collected in 2020, throughout the **COVID-19 pandemic**. Lockdowns and travel restrictions, particularly throughout Spring 2020, heavily impacted car travel and industry, major contributors of atmospheric particulate matter. 
+
+The variability of [PM2.5] over time is represented by an average daily value across all sites. A 7-day rolling average has been included to improve illustration of longer-term trends.
+
+![](images/daily_pm_roll.png)
+
+On a monthly scale, reductions in [PM2.5] can be seen in all states during the early months of the pandemic (March-May). According to the [CDC Museum Timeline](https://www.cdc.gov/museum/timeline/covid19.html), most travel restrictions fell within this window.
+
+![](images/month_pm_boxplot.png)
+
+To determine the effects of seasonality on particulate matter concentration, a linear mixed model (LMM) was performed. The chosen model allows for variation among **neighborhoods** (a nested variable within **state**) and across **seasons**. An ANOVA confirmed that neighborhood interaction significantly improved model fit.
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+# linear mixed model for repeated measure (daily means) at each site
+library(lme4)
+
+lmm <- lmer(pm2.5_dailymean ~ neighborhood * season + (1 | date), data = seasonality) # with interaction
+
+# compare the full mixed model lmm to one without accounting repeated daily
+lmm_main <- lmer(pm2.5_dailymean ~ neighborhood + season + (1 | date), data = seasonality) # no interaction
+anova(lmm_main, lmm)
+# lmm with interaction is significantly better
+
+```
+
+
+
 
 This comes from the file `analysis.qmd`.
 

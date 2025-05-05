@@ -16,8 +16,8 @@ pm2.5_dist <- ggplot(dataset, aes(x = pm2.5_dailymean)) +
 
 pm2.5_dist
 
-ggsave(filename = here::here("images", "pm25_distr.png"),
-       plot = pm2.5_dist)
+#ggsave(filename = here::here("images", "pm25_distr.png"),
+#       plot = pm2.5_dist)
 
 summary(dataset$pm2.5_dailymean)
 
