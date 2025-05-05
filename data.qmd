@@ -42,7 +42,6 @@ Each state's data was downloaded for all of 2020 separately, and had to be joine
 Notably in the data, the distribution of Daily Mean PM2.5 is right skewed. This is frequent in air quality data, as most days have generally low concentrations of particulate matter at a wide geographic scale.
 
 ```{r echo=FALSE}
-#| message: false
 #| warning: false
 library(tidyverse)
 
