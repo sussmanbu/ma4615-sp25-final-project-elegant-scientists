@@ -7,6 +7,22 @@ date: "2025-04-30"
 draft: FALSE
 ---
 
-### Continuing Exploratory Data Analtsis... Sort of...
+### Continuing Exploratory Data Analysis... Sort of...
 
-We ran into an issue late in the semester. Our iriginal dataset included only **three** air quality monitoring stations around Boston. These sites and associated trends have been well described in earlier blog posts. However, we wanted to draw broader conclusions about associations between demographic characteristics and exposure to air pollution than was possible with that geographic spread.
+We ran into an issue late in the semester. Our original dataset included only **three** air quality monitoring stations around Boston. These sites and associated trends have been well described in earlier blog posts. However, we wanted to draw broader conclusions about associations between demographic characteristics and exposure to air pollution than was possible with that geographic spread.
+
+To tackle this problem, we accessed more air-quality monitoring data from the EPA database, expanding to include sites from New York, New Jersey, Delaware, Maryland, and Pennsylvania in addition to Massachusetts. 
+
+The improved dataset was cleaned and joined with census data from intersecting tracts to create air quality by neighborhood. The process for this cleaning is described in the data.qmd webpage. Then, we approached our model development again, using two compound Poisson generalized linear models (CPGLMs) to investigate relationships between racial composition/diversity and particulate matter exposure.
+
+On a larger geographic scale (representative of urbanized areas of the East Coast), we found increased exposure risk for PM2.5 in neighborhoods with higher percent Black and Asian populations. 
+
+If time were not a limiting factor, we would have explored socioeconomic associations with air quality data as well.
+
+### Thesis
+
+In East coast cities throughout 2020, neighborhoods with higher population density of Black and Asian residents have greater risk of exposure to particulate matter pollution. 
+
+## Visualizations
+
+Cat is a big fan of the theme from library(mediocrethemes). Most figures were formatted with this theme for consistency. Demographic trends were not shown with this theme for readability.

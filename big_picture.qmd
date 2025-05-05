@@ -1,30 +1,43 @@
 ---
-title: "Big Picture"
-description: "A 538/Upshot style article about the data."
+title: "Lines in the Smog"
+description: "Pollution isn't evenly shared. Here's who gets the worst of it."
 toc: true
 draft: FALSE
 filters:
   - shinylive
 ---
 
-![](images/The_Big_Picture_2.jpeg)
+![](images/air_quality_pollution_particles_social.jpg)
+Image from [Science Journal for Kids and Teens](https://www.sciencejournalforkids.org/articles/how-does-air-pollution-affect-people-differently/)
 
-This comes from the file `big_picture.qmd`.
+## Take a breath...
 
-Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Try to write in the style of a news or popular article. Importantly, this page should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression or a complicated plot. Focus on interpretation and visualizations.
+When we consider "fresh air," it's almost intuitive to us where the freshest air will be. In the countryside, by the coast, in the forest. Conversely, air pollution is often associated with urbanization and industry, smog settling over smokestacks in the city and bumper-to-bumper traffic coughing out fumes from thousands of tailpipes. Part of what makes up air pollution are tiny particles like soot. When these particles are below a certain size, they are categorized as particulate matter 2.5 (PM2.5). PM2.5 can cause respiratory illnesses like asthma or cardiac issues including irregular heartbeat and cardiac arrest.
+
+So who is breathing this stuff? This project focused on air quality data collected throughout 2020 at stations around the East coast of the United States, with a particular focus on larger cities. Stations were located in Boston, New York City, Jersey City, and Philadelphia, among other places. 
+
+Using data from the 2020 census, we created "neighborhoods"  to find out who was living near each monitoring station. 
+
+Then, we compared the amount of particulate matter in the air over time in each neighborhood, giving us insight into the types of people experiencing exposure to this air pollutant. 
+
+## Who's got it the worst?
+
+Across all the neighborhoods we looked at on the East coast, areas with higher populations of Black and Asian residents experienced **more particulate matter exposure** than those with higher concentrations of white residents. This is [consistent](https://www.nytimes.com/2021/04/28/climate/air-pollution-minorities.html) with other studies around the country. This project focused in particular in urban areas, where pollution mainly stems from **transportation**, [particularly cars](https://www.cleanairfund.org/theme/cities/#:~:text=by%20weather%20conditions.-,Traffic%20is%20a%20huge%20source%20of%20urban%20air%20pollution,half%20of%20emissions%20in%20cities.) which can contribute up to half of a city's emissions alone!
 
 
+So why do Black and Asian populations experience the most exposure to PM2.5? Well, [recent research](https://www.sciencedirect.com/science/article/pii/S1361920923003620) demonstrates that lower income neighborhoods, often dominated by minority populations, are frequently **closer to roadways** than more affluent, mostly white neighborhoods. Higher income neighborhoods also often have better infrastructure for cleaner transportation (e.g. bike lanes, train access), and more green spaces like parks that can improve air quality overall.
+
+
+Try the interactive map below to explore air quality around the coast.
 
 ---
 
 
-### Interactive
+### Explore air pollution around the coast
 
-Your Big Data page should also include a small interactive dashboard. The dashboard should be created either using Shinylive, as below. This interactive component should in some way support your thesis from your big picture page. Good interactives often provide both high-level understanding of the data while allowing a user to investigate specific scenarios, observations, subgroups, etc.
-
-```{r, echo=FALSE}
-#| message: true
-#| warning: true
+```{r echo=FALSE}
+#| message: false
+#| warning: false
 library(shiny)
 library(leaflet)
 library(plotly)
@@ -220,45 +233,5 @@ shinyApp(ui, server)
 
 ```
 
-## Rubric: On this page
+This comes from the file `big_picture.qmd`.
 
-
-* Title
-  * Your big picture page should have a creative/click-bait-y title/headline that provides a hint about your thesis.
-* Clarity of Explanation
-  * You should have a clear thesis/goal for this page. What are you trying to show? Make sure that you explain your analysis in detail but don't go into top much mathematics or statistics. The audience for this page is the general public (to the extent possible). Your thesis should be a statement, not a question.
-  * Each figure should be very polished and also not too complicated. There should be a clear interpretation of the figure so the figure has a clear purpose. Even something like a histogram can be difficult to interpret for non-experts.
-* Creativity
-  * Do your best to make things interesting. Think of a how a news article or a magazine story might draw you in. Think of how each part of your analysis supports the previous part or provides a different perspective.
-* Interactive component
-  * Quality and ease of use of the interactive components.
-Is it clear what can be explored using your interactive components?
-Does it enhance and reinforce your conclusions?
-* This page should be self-contained.
-  
-**Note**: This page should have no code visible, i.e. use `#| echo: FALSE`.  
-
-
-
-
-## Rubric: Other components
-
-### Video Recording
-
-Make a video recording (probably using Zoom) demonstrating your interactive components.
-You should provide a quick explanation of your data and demonstrate some of the conclusions from your EDA.
-This video should be no longer than 4 minutes.
-Include a link to your video (and password if needed) in your README.md file on your Github repository. You are not required to provide a link on the website.
-This can be presented by any subset of the team members.
-
-
-### Rest of the Site
-
-Finally, here are important things to keep in mind for the rest of the site. 
-
-The main title of your page is informative.
-Each post has an author/description/informative title.
-All lab required posts are present.
-Each page (including the home page) has a nice featured image associated with it.
-Your about page is up to date and clean.
-You have removed the generic posts from the initial site template.
