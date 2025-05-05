@@ -1,0 +1,12 @@
+name: dataset_for_shiny
+title: dataset_for_shiny
+username: gshivnauth
+account: gshivnauth
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14691627
+bundleId: 10235711
+url: https://gshivnauth.shinyapps.io/dataset_for_shiny/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
