@@ -41,6 +41,7 @@ var_mean_PM
 ggsave(filename = here::here("images", "pm25_var_mean.png"),
        plot = var_mean_PM)
 
+library(tidyverse)
 # diversity index Tweedie
 simpson_pm <- dataset |>
   mutate(
@@ -52,6 +53,12 @@ simpson_pm <- dataset |>
   )
 model_diversity <- cpglm(pm2.5_dailymean ~ month + simpson_diversity, data = simpson_pm)
 summary(model_diversity)
+write_rds(simpson_pm, file = here::here("dataset", "simpson_pm.rds"))
+# Read the RDS file
+data <- readRDS("~/Desktop/Girish Folders/Boston University Classes/bu semester 8/CASMA415/Project Elegant Scientists/dataset/simpson_pm.rds")
+
+# Write to CSV
+write.csv(data, "~/Desktop/Girish Folders/Boston University Classes/bu semester 8/CASMA415/Project Elegant Scientists/dataset/simpson_pm.csv", row.names = FALSE)
 
 # percent relative to white Tweedie
 model_relWhite <- cpglm(pm2.5_dailymean ~ month + pct_black + pct_asian + 
