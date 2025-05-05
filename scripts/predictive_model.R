@@ -5,8 +5,10 @@ library(dplyr)
 library(tidyverse)
 library(cplm)
 library(mediocrethemes)
+library(sf)
 
-dataset <- read_rds(file = here::here("dataset/air_qual_census.rds"))
+dataset <- read_rds(file = here::here("dataset/air_qual_census.rds")) |>
+  st_drop_geometry()
 
 # right skewed distribution, includes true 0 values (no gamma)
 pm2.5_dist <- ggplot(dataset, aes(x = pm2.5_dailymean)) +

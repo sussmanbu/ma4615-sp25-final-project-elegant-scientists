@@ -5,6 +5,7 @@ library(dplyr)
 library(tidyverse)
 library(broom.mixed)
 library(mediocrethemes)
+library(sf)
 
 # columns of interest for this graph
 cols <- c("month","date","pm2.5_dailymean","aqi","state","neighborhood")
@@ -21,7 +22,7 @@ seasonality <- air_qual_data |>
       month %in% c(9, 10, 11) ~ "Fall",
       TRUE ~ NA_character_
     ),
-    mutate(season = factor(season, levels = c("Winter", "Spring", "Summer", "Fall"))),
+    season = factor(season, levels = c("Winter", "Spring", "Summer", "Fall")),
     neighborhood = factor(neighborhood),
     site = str_extract(as.character(neighborhood), "(?<=_)\\d+"),
     state = str_to_title(state)
@@ -46,8 +47,8 @@ month_pm_gg <- ggplot(month_pm, aes(x = month, y = mean_pm25, fill = highlight))
   ) +
   theme_minimal(base_size = 14)
 month_pm_gg
-ggsave(filename = here::here("images", "month_pm_boxplot.png"),
-       plot = month_pm_gg)
+#ggsave(filename = here::here("images", "month_pm_boxplot.png"),
+ #      plot = month_pm_gg)
 
 # create boxplot of seasonal PM2.5 and AQI by season for each state
 
@@ -87,8 +88,8 @@ pm25_season_plot <- ggplot(season_summary, aes(x = mean_pm25, y = season, fill =
   )
 pm25_season_plot
 
-ggsave(filename = here::here("images", "seasonal_pm_boxplot.png"),
-       plot = pm25_season_plot)
+#ggsave(filename = here::here("images", "seasonal_pm_boxplot.png"),
+#      plot = pm25_season_plot)
 
 # now AQI
 aqi_season_plot <- ggplot(season_summary, aes(x = mean_aqi, y = season, fill = season)) +
@@ -107,8 +108,8 @@ aqi_season_plot <- ggplot(season_summary, aes(x = mean_aqi, y = season, fill = s
     legend.position = "none"
   )
 aqi_season_plot
-ggsave(filename = here::here("images", "aqi_season_boxplot.png"),
-       plot = aqi_season_plot)
+#ggsave(filename = here::here("images", "aqi_season_boxplot.png"),
+#       plot = aqi_season_plot)
 
 
 # linear mixed model for repeated measure (daily means) at each site
@@ -134,9 +135,77 @@ library(emmeans)
 
 emmeans_df<- emmeans(lmm, pairwise ~ season | neighborhood, adjust = "tukey")
 
-vis_emmeans<- emmeans_df$emmeans |>
-  as.data.frame() |>
-  mutate(season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter")))
+# Save the results
+
+save_emmeans<- emmeans_df$emmeans |>
+  as.data.frame()
+
+write.csv(save_emmeans, file = here::here("dataset", "emmeans_emmeans.csv"))
+
+save_contrasts<- emmeans_df$contrasts |>
+  as.data.frame()
+
+write.csv(save_contrasts, file = here::here("dataset", "emmeans_contrasts.csv"))
+
+# visualize outputs
+
+vis_emmeans<- as.data.frame(emmeans_df$emmeans) |>
+  mutate(
+    season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter")),
+    state = str_extract(neighborhood, "^[a-zA-Z ]+")
+  )
+
+# Create summary plot by state
+state_summary <- vis_emmeans |>
+  group_by(state, season) |>
+  summarise(
+    emmean = mean(emmean),
+    lower = mean(asymp.LCL),
+    upper = mean(asymp.UCL),
+    .groups = "drop"
+  )
+state_sum_gg <- ggplot(state_summary, aes(x = season, y = emmean, group = state)) +
+  geom_line(aes(color = state), linewidth = 1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  labs(
+    title = "State-Level Average PM2.5 by Season",
+    x = "Season",
+    y = "Estimated PM2.5 (µg/m³)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1),
+    legend.position = "right"
+  )
+state_sum_gg
+
+# Faceted by neighborhood
+vis_emmeans <- as.data.frame(emmeans_df$emmeans) |>
+  mutate(
+    state = str_extract(neighborhood, "^[a-zA-Z ]+"),
+    state_number = as.integer(as.factor(state)),
+    facet_label = paste("State", state_number),
+    season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter"))
+  )
+
+neighborhood_emmeans <- ggplot(vis_emmeans, aes(x = season, y = emmean, group = neighborhood)) +
+  geom_line(color = "gray50") +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  facet_wrap(~ state) +
+  labs(
+    title = "Estimated PM2.5 by Season and Neighborhood",
+    x = "Season",
+    y = "Estimated PM2.5 (µg/m³)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+neighborhood_emmeans
+
+ggsave(filename = here::here("images", "neighborhood_emmeans.png"),
+       plot = neighborhood_emmeans)
+
 vis_emmeans_gg <- ggplot(vis_emmeans, aes(x = season, y = emmean, group = neighborhood)) +
   geom_line(color = "gray50") +
   geom_point(size = 2) +
@@ -150,6 +219,48 @@ vis_emmeans_gg <- ggplot(vis_emmeans, aes(x = season, y = emmean, group = neighb
   theme_minimal(base_size = 14)
 
 print(vis_emmeans_gg)
+
+# try a similar plot highlighting significant contrasts
+contrasts <- as.data.frame(emmeans_df$contrasts)
+sig_contrasts <- contrasts |>
+  filter(p.value <0.05)
+sig_neighborhoods <- unique(c(sig_contrasts$neighborhood1, sig_contrasts$neighborhood2))
+
+
+vis_emmeans <- vis_emmeans |>
+  mutate(significant = ifelse(neighborhood %in% sig_neighborhoods, TRUE, FALSE))
+
+neighborhood_emmeans <- ggplot(vis_emmeans, aes(x = season, y = emmean, group = neighborhood)) +
+  geom_line(aes(color = significant), linewidth = 1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  scale_color_manual(values = c("gray80", "red")) +
+  facet_wrap(~ state) +
+  labs(
+    title = "Estimated PM2.5 by Season and Neighborhood",
+    x = "Season",
+    y = "Estimated PM2.5 (µg/m³)",
+    color = "Significant"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+neighborhood_emmeans
+
+# dot plot
+dot_plot <- ggplot(vis_emmeans, aes(x = emmean, y = state, color = season)) +
+  geom_point(position = position_dodge(width = 0.5), size = 3) +
+  geom_errorbarh(aes(xmin = asymp.LCL, xmax = asymp.UCL),
+                 position = position_dodge(width = 0.5), height = 0.2) +
+  labs(
+    title = "Estimated PM2.5 by State and Season",
+    x = "Estimated PM2.5 (µg/m³)",
+    y = "State",
+    color = "Season"
+  ) +
+  theme_minimal(base_size = 14)
+dot_plot
+ggsave(filename = here::here("images", "dot_plot.png"),
+       plot = dot_plot)
 
 
 # More visualizations: now not grouped by time but averaged across stations
