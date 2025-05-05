@@ -96,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../big_picture.html"> 
-<span class="menu-text">Big Picture</span></a>
+<span class="menu-text">Lines in the Smog</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../analysis.html"> 
@@ -158,9 +158,21 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="continuing-exploratory-data-analtsis-sort-of" class="level3">
-<h3 class="anchored" data-anchor-id="continuing-exploratory-data-analtsis-sort-of">Continuing Exploratory Data Analtsis… Sort of…</h3>
-<p>We ran into an issue late in the semester. Our iriginal dataset included only <strong>three</strong> air quality monitoring stations around Boston. These sites and associated trends have been well described in earlier blog posts. However, we wanted to draw broader conclusions about associations between demographic characteristics and exposure to air pollution than was possible with that geographic spread.</p>
+<section id="continuing-exploratory-data-analysis-sort-of" class="level3">
+<h3 class="anchored" data-anchor-id="continuing-exploratory-data-analysis-sort-of">Continuing Exploratory Data Analysis… Sort of…</h3>
+<p>We ran into an issue late in the semester. Our original dataset included only <strong>three</strong> air quality monitoring stations around Boston. These sites and associated trends have been well described in earlier blog posts. However, we wanted to draw broader conclusions about associations between demographic characteristics and exposure to air pollution than was possible with that geographic spread.</p>
+<p>To tackle this problem, we accessed more air-quality monitoring data from the EPA database, expanding to include sites from New York, New Jersey, Delaware, Maryland, and Pennsylvania in addition to Massachusetts.</p>
+<p>The improved dataset was cleaned and joined with census data from intersecting tracts to create air quality by neighborhood. The process for this cleaning is described in the data.qmd webpage. Then, we approached our model development again, using two compound Poisson generalized linear models (CPGLMs) to investigate relationships between racial composition/diversity and particulate matter exposure.</p>
+<p>On a larger geographic scale (representative of urbanized areas of the East Coast), we found increased exposure risk for PM2.5 in neighborhoods with higher percent Black and Asian populations.</p>
+<p>If time were not a limiting factor, we would have explored socioeconomic associations with air quality data as well.</p>
+</section>
+<section id="thesis" class="level3">
+<h3 class="anchored" data-anchor-id="thesis">Thesis</h3>
+<p>In East coast cities throughout 2020, neighborhoods with higher population density of Black and Asian residents have greater risk of exposure to particulate matter pollution.</p>
+</section>
+<section id="visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
+<p>Cat is a big fan of the theme from library(mediocrethemes). Most figures were formatted with this theme for consistency. Demographic trends were not shown with this theme for readability.</p>
 
 
 </section>
