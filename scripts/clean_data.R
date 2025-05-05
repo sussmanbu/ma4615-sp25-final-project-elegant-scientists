@@ -1,13 +1,32 @@
-# This file is purely as an example.
-# Note, you may end up creating more than one cleaned data set and saving that
-# to separate files in order to work on different aspects of your project
 
+rm(list = ls())
 library(tidyverse)
 
-loan_data <- read_csv(here::here("dataset", "loan_refusal.csv"))
+race_vars <- c(
+  "total_pop", "white", "black", "native", "asian", "pacific",
+  "other_race", "two_or_more", "hispanic", "not_hispanic"
+)
+pct_race <- c(
+  "pct_white", "pct_black", "pct_native", "pct_asian", "pct_pacific",
+  "pct_other_race", "pct_two_or_more", "pct_hispanic", "pct_not_hispanic"
+)
 
-## CLEAN the data
-loan_data_clean <- loan_data |>
-  pivot_longer(2:5, names_to = "group", values_to = "refusal_rate")
+tracts <- read_rds(file = here::here("dataset", "intersect_tracts.rds"))
 
-write_rds(loan_data_clean, file = here::here("dataset", "loan_refusal_clean.rds"))
+air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) |>
+  group_by(month)|>
+  summarize(across())
+
+census_data <- read_rds(file = here::here("dataset", "census_data.rds")) |> 
+  rename(GEOID = FIPS)
+
+tracts_joined <- tracts |> 
+  left_join(census_data, by = "GEOID")
+
+data_combined <- air_qual_data |>
+  group_by(site_name, month) |>
+  left_join(tracts_joined, by = "site_id") |>
+  select(-NAME,-method_code,-method_desc,-units,-geometry)
+
+write_rds(data_combined, file = here::here("dataset", "air_qual_census.rds"))
+write_rds(tracts_joined, file = here::here("dataset", "census_neighborhood.rds"))

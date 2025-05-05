@@ -16,11 +16,15 @@ air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) |>
   group_by(month)|>
   summarize(across())
 
-census_data <- read_rds(file = here::here("dataset", "census_data.rds")) 
+census_data <- read_rds(file = here::here("dataset", "census_data.rds")) |> 
+  rename(GEOID = FIPS)
 
+tracts_joined <- tracts |> 
+  left_join(census_data, by = "GEOID")
 
 data_combined <- air_qual_data |>
   group_by(site_name, month) |>
-  left_join(census_data, by = "site_name", relationship = "many-to-many")
+  left_join(tracts_joined, by = "site_id") |>
+  select(-NAME,-method_code,-method_desc,-units,-geometry)
 
 write_rds(data_combined, file = here::here("dataset", "air_qual_census.rds"))

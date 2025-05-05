@@ -6,7 +6,11 @@ library(tidyverse)
 library(broom.mixed)
 library(mediocrethemes)
 
-air_qual_data <- read_rds(file = here::here("dataset", "air_qual_clean.rds")) 
+# columns of interest for this graph
+cols <- c("month","date","pm2.5_dailymean","aqi","state","neighborhood")
+
+air_qual_data <- read_rds(file = here::here("dataset", "air_qual_census.rds")) |>
+  select(cols)
   
 seasonality <- air_qual_data |>
   mutate(
@@ -18,37 +22,68 @@ seasonality <- air_qual_data |>
       TRUE ~ NA_character_
     ),
     season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter")),
-    site_name = factor(site_name)
+    neighborhood = factor(neighborhood),
+    site = str_extract(as.character(neighborhood), "(?<=_)\\d+"),
+    state = str_to_title(state)
   )
 
-# create boxplot of PM2.5 by season at each site
-season_box <- ggplot(seasonality, aes(x = site_name, y = pm2.5_dailymean)) +
-  geom_boxplot() +
-  facet_grid(~ season) +
-  scale_x_discrete(labels = c(
-    "BOSTON KENMORE SQ" = "Kenmore",
-    "DUDLEY SQUARE ROXBURY" = "Roxbury",
-    "VON HILLERN ST" = "Dorchester"
-  )) +
-  labs(title = "Seasonal Distribution of PM2.5 by Site",
-       x = "Site Name",
-       y = "Mean PM2.5",
-       fill = "Season") +
+# create boxplot of seasonal PM2.5 and AQI by season for each state
+
+season_summary <- seasonality |>
+  group_by(state, season) |>
+  summarise(
+    mean_pm25 = mean(pm2.5_dailymean, na.rm = TRUE),
+    mean_aqi = mean(aqi, na.rm = TRUE),
+    .groups = "drop"
+  )
+pm25_season_plot <- ggplot(season_summary, aes(x = mean_pm25, y = season, fill = season)) +
+  geom_col() +
+  facet_wrap(~ state) +
+  labs(
+    title = "Average Seasonal PM2.5 Concentration by State",
+    x = "Season",
+    y = "PM 2.5 (µg/m³)",
+    fill = "Season"
+  ) +
   theme_mediocre() +
-  theme(legend.position = "none",
-        axis.text.x = element_text(angle = 45, hjust = 1))
-season_box
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text = element_text(face = "bold"),
+    legend.position = "none"
+  )
+pm25_season_plot
 ggsave(filename = here::here("images", "seasonal_pm_boxplot.png"),
-       plot = season_box)
-  
+       plot = pm25_season_plot)
+
+# now AQI
+aqi_season_plot <- ggplot(season_summary, aes(x = mean_aqi, y = season, fill = season)) +
+  geom_col() +
+  facet_wrap(~ state) +
+  labs(
+    title = "Average Seasonal AQI by State",
+    x = "Season",
+    y = "Air Quality Index (AQI)",
+    fill = "Season"
+  ) +
+  theme_mediocre() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text = element_text(face = "bold"),
+    legend.position = "none"
+  )
+aqi_season_plot
+ggsave(filename = here::here("images", "aqi_season_boxplot.png"),
+       plot = aqi_season_plot)
+
+
 # linear mixed model for repeated measure (daily means) at each site
 library(lme4)
 
-lmm <- lmer(pm2.5_dailymean ~ site_name * season + (1 | date), data = seasonality)
+lmm <- lmer(pm2.5_dailymean ~ neighborhood * season + (1 | date), data = seasonality)
 summary(lmm)
 
 # compare the full mixed model lmm to one without accounting repeated daily
-lmm_main <- lmer(pm2.5_dailymean ~ site_name + season + (1 | date), data = seasonality)
+lmm_main <- lmer(pm2.5_dailymean ~ neighborhood + season + (1 | date), data = seasonality)
 anova(lmm_main, lmm)
 # full lmm is significantly better
 
