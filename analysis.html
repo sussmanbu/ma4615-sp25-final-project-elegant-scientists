@@ -156,11 +156,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#air-quality-by-season" id="toc-air-quality-by-season" class="nav-link active" data-scroll-target="#air-quality-by-season">Air Quality by Season</a></li>
-  <li><a href="#neighborhoods-by-race" id="toc-neighborhoods-by-race" class="nav-link" data-scroll-target="#neighborhoods-by-race">Neighborhoods by race</a>
+  <li><a href="#neighborhoods-by-race" id="toc-neighborhoods-by-race" class="nav-link" data-scroll-target="#neighborhoods-by-race">Neighborhoods by race</a></li>
+  <li><a href="#exploring-air-quality-trends-by-demographics" id="toc-exploring-air-quality-trends-by-demographics" class="nav-link" data-scroll-target="#exploring-air-quality-trends-by-demographics">Exploring air quality trends by demographics</a>
   <ul class="collapse">
-  <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
+  <li><a href="#simpson-diversity-index" id="toc-simpson-diversity-index" class="nav-link" data-scroll-target="#simpson-diversity-index">1. Simpson Diversity Index</a></li>
+  <li><a href="#relative-percent" id="toc-relative-percent" class="nav-link" data-scroll-target="#relative-percent">2. Relative Percent</a></li>
+  <li><a href="#visualizing-relationships" id="toc-visualizing-relationships" class="nav-link" data-scroll-target="#visualizing-relationships">Visualizing relationships</a></li>
   </ul></li>
-  <li><a href="#note-on-attribution" id="toc-note-on-attribution" class="nav-link" data-scroll-target="#note-on-attribution">Note on Attribution</a></li>
   <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
   </ul>
 </nav>
@@ -192,7 +194,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="images/clean_skies.jpeg" class="img-fluid"> This section explores trends in EPA air quality metric Particulate Matter 2.5 concentration across monitoring sites along the East Coast U.S. in addition to demographic trends in neighborhoods associated with measured air quality. The ultimate goal was to compare PM2.5 exposure by race throughout 2020.</p>
+<p><img src="images/clean_skies.jpeg" class="img-fluid"></p>
+<p>Exposure to small particulate matter (PM2.5) can lead to respiratory issues like asthma, irregular heartbeat, and heart attacks <a href="https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm">EPA</a>. Recent research has demonstrated that people of color generally have a higher exposure to air pollution than white residents in the U.S. <a href="https://ehp.niehs.nih.gov/doi/10.1289/EHP8584">Environmental Health Persepectives</a>.</p>
+<p>This section explores trends in EPA air quality metric PM2.5 concentration across monitoring sites along the East Coast U.S. in addition to demographic trends in neighborhoods associated with measured air quality. The ultimate goal was to compare PM2.5 exposure by race throughout 2020.</p>
 <section id="air-quality-by-season" class="level2">
 <h2 class="anchored" data-anchor-id="air-quality-by-season">Air Quality by Season</h2>
 <p>Daily air quality parameters like particulate matter concentration are highly variable, especially on a regional scale. The air quality data for this project was collected in 2020, throughout the <strong>COVID-19 pandemic</strong>. Lockdowns and travel restrictions, particularly throughout Spring 2020, heavily impacted car travel and industry, major contributors of atmospheric particulate matter. Trends in particulate matter throughout 2020 were explored in <a href="here:here(/scripts/air_qual_trends.R)">air_qual_trends.R</a>.</p>
@@ -208,75 +212,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="neighborhoods-by-race">Neighborhoods by race</h2>
 <p>Visually, demographic differences between states and within states at the neighborhood level are apparent. To confirm statistical significance, a Kruskal-Wallis test was performed in <a href="here:here(/scripts/demographic_trends.R)">demographic_trends.R</a>. Percent population of all races differed significantly between states. However, <strong>within states</strong> neighborhoods were not significantly different by percent population by race.</p>
 <p><img src="images/site_demographics.png" class="img-fluid"></p>
-<p>This comes from the file <code>analysis.qmd</code>.</p>
-<p>We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You’ll also reflect on next steps and further analysis.</p>
-<p>The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.</p>
-<p>While the exact number of figures and tables will vary and depend on your analysis, you should target around 5 to 6. An overly long analysis could lead to losing points. If you want you can link back to your blog posts or create separate pages with more details.</p>
-<p>The style of this paper should aim to be that of an academic paper. I don’t expect this to be of publication quality but you should keep that aim in mind. Avoid using “we” too frequently, for example “We also found that …”. Describe your methodology and your findings but don’t describe your whole process.</p>
-<section id="example-of-loading-data" class="level3">
-<h3 class="anchored" data-anchor-id="example-of-loading-data">Example of loading data</h3>
-<p>The code below shows an example of loading the loan refusal data set (which you should delete at some point).</p>
+</section>
+<section id="exploring-air-quality-trends-by-demographics" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-air-quality-trends-by-demographics">Exploring air quality trends by demographics</h2>
+<p>Initially, we aimed to pursue a Gamma model to predict [PM2.5] at particular times of year based on neighborhood demographic characteristics. The <strong>right-skewed distribution</strong> and <strong>increasing variance with increased mean</strong> of PM2.5 concentration fit the assumptions of a Gamma model. However, there were also instances of <strong>true zero PM2.5 days</strong>, which violates the assumptions of this model type.</p>
+<p>Instead, a <strong>compound Poisson generalized linear model</strong> (CPGLM) was appropriate for this investigation. Two approaches were applied to limit <strong>multicollinearity</strong> in the data. In each case, variation was controlled by <strong>month</strong> as well.</p>
+<section id="simpson-diversity-index" class="level3">
+<h3 class="anchored" data-anchor-id="simpson-diversity-index">1. Simpson Diversity Index</h3>
+<p>The Simpson Diversity Index is a representation of diveristy usually applied to biodiversity (number of species). However, here it has been applied to racial diversity and gives a broad overview of racial heterogeneity as well as racial distribution (evenness) by neighborhood <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304380007004255">Gregorius and Gillet, 2008</a>.</p>
+<p>Proportion by race including white, black, asian, and other (combined native, pacific, etc.) were used to calculate a Simpson diversity score from <strong>0</strong> (no diversity) to <strong>1</strong> (maximum diversity).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' was built under R version 4.2.3</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model_diversity <span class="ot">&lt;-</span> <span class="fu">cpglm</span>(pm2<span class="fl">.5</span>_dailymean <span class="sc">~</span> month <span class="sc">+</span> simpson_diversity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'forcats' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">getwd</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "C:/Users/mahon/OneDrive/Documents/Classes/Spring 2025/data_sci_R/project/ma4615-sp25-final-project-elegant-scientists"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/loan_refusal_clean.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>Controlling for variation by month, the diversity model output demonstrates that <strong>more racially diverse neighborhoods have significantly less exposure to PM2.5</strong>.</p>
+<p>This result appears counterintuitive at first. However, the Simpson Diversity Index does not account for the actual density of any one group. This could suggest that spatial distribution of more segregated neighborhoods is missed in this model. To dive deeper into these relationships, a predictive CPGLM using relative percent by race was developed.</p>
 </section>
+<section id="relative-percent" class="level3">
+<h3 class="anchored" data-anchor-id="relative-percent">2. Relative Percent</h3>
+<p>This model used <strong>percent by race</strong> as predictor variables. It is important to note that all results are <strong>relative to percent white</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model_relWhite <span class="ot">&lt;-</span> <span class="fu">cpglm</span>(pm2<span class="fl">.5</span>_dailymean <span class="sc">~</span> month <span class="sc">+</span> pct_black <span class="sc">+</span> pct_asian <span class="sc">+</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          pct_native <span class="sc">+</span> pct_pacific <span class="sc">+</span> pct_other_race <span class="sc">+</span>                                    pct_two_or_more, <span class="at">data =</span> dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong><em>Results by Race % Population</em></strong></p>
+<ul>
+<li>Percent Black:</li>
+</ul>
+<p>Estimate ~ <strong>+0.00072</strong> increase in PM2.5 exposure for each 1% increase in Black population. This increase seems small but is significant on large spatial scales. This result suggests areas with <strong>higher percent Black populations have greater risk of PM2.5 exposure</strong>, consistent with previous research on racial disparities with air quality metrics.</p>
+<ul>
+<li>Percent Asian</li>
+</ul>
+<p>Estimate ~ <strong>+0.00095</strong> shows a similar increase in PM2.5 exposure in areas with higher Asian populations.</p>
+<ul>
+<li>Percent Native American and Percent Pacific Islander</li>
+</ul>
+<p>Interestingly, both percent Native American and percent Pacific Islander saw strong negative associations with PM2.5, estimates <strong>-0.073</strong> and <strong>-0.202</strong>, respectively. This could suggest that these populations tend to be grouped in more rural areas or areas with lower industrialization.</p>
+<ul>
+<li>Percent Other Race</li>
+</ul>
+<p>There was a small but significant positive association with PM2.5 (estimate <strong>+0.0028</strong>).</p>
+<ul>
+<li>Percent Two or More Races</li>
+</ul>
+<p>This relationship was non-significant (p &gt; 0.05).</p>
 </section>
-<section id="note-on-attribution" class="level2">
-<h2 class="anchored" data-anchor-id="note-on-attribution">Note on Attribution</h2>
-<p>In general, you should try to provide links to relevant resources, especially those that helped you. You don’t have to link to every StackOverflow post you used but if there are explainers on aspects of the data or specific models that you found helpful, try to link to those. Also, try to link to other sources that might support (or refute) your analysis. These can just be regular hyperlinks. You don’t need a formal citation.</p>
-<p>If you are directly quoting from a source, please make that clear. You can show long quotes using <code>&gt;</code> like this</p>
-<pre><code>&gt; To be or not to be.</code></pre>
-<blockquote class="blockquote">
-<p>To be or not to be.</p>
-</blockquote>
+<section id="visualizing-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-relationships">Visualizing relationships</h3>
+<p>The coefficient estimates from both the Simpson Diversity model and the Relative Percent by race model are shown below.</p>
+<p><img src="images/cpglm_output.png" class="img-fluid"></p>
+<p>This comes from the file <code>analysis.qmd</code>.</p>
 <hr>
+</section>
 </section>
 <section id="rubric-on-this-page" class="level2">
 <h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
