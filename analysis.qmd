@@ -6,7 +6,10 @@ draft: false
 ---
 
 ![](images/clean_skies.jpeg)
-This section explores trends in EPA air quality metric Particulate Matter 2.5 concentration across monitoring sites along the East Coast U.S. in addition to demographic trends in neighborhoods associated with measured air quality. The ultimate goal was to compare PM2.5 exposure by race throughout 2020. 
+
+Exposure to small particulate matter (PM2.5) can lead to respiratory issues like asthma, irregular  heartbeat, and heart attacks [EPA](https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm). Recent research has demonstrated that people of color  generally have a higher exposure to air pollution than white residents in the U.S. [Environmental Health Persepectives](https://ehp.niehs.nih.gov/doi/10.1289/EHP8584).
+
+This section explores trends in EPA air quality metric PM2.5 concentration across monitoring sites along the East Coast U.S. in addition to demographic trends in neighborhoods associated with measured air quality. The ultimate goal was to compare PM2.5 exposure by race throughout 2020. 
 
 ## Air Quality by Season
 
@@ -48,43 +51,71 @@ Visually, demographic differences between states and within states at the neighb
 ![](images/site_demographics.png)
 
 
+## Exploring air quality trends by demographics
+
+Initially, we aimed to pursue a Gamma model to predict [PM2.5] at particular times of year based on neighborhood demographic characteristics. The **right-skewed distribution** and **increasing variance with increased mean** of PM2.5 concentration fit the assumptions of a Gamma model. However, there were also instances of **true zero PM2.5 days**, which violates the assumptions of this model type. 
+
+Instead, a **compound Poisson generalized linear model** (CPGLM) was appropriate for this investigation. Two approaches were applied to limit **multicollinearity** in the data. In each case, variation was controlled by **month** as well.
+
+### 1. Simpson Diversity Index
+
+The Simpson Diversity Index is a representation of diveristy usually applied to biodiversity (number of species). However, here it has been applied to racial diversity and gives a broad overview of racial heterogeneity as well as racial distribution (evenness) by neighborhood [Gregorius and Gillet, 2008](https://www.sciencedirect.com/science/article/abs/pii/S0304380007004255). 
+
+Proportion by race including white, black, asian, and other (combined native, pacific, etc.) were used to calculate a Simpson diversity score from **0** (no diversity) to **1** (maximum diversity).
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+model_diversity <- cpglm(pm2.5_dailymean ~ month + simpson_diversity)
+```
+
+Controlling for variation by month, the diversity model output demonstrates that **more racially diverse neighborhoods have significantly less exposure to PM2.5**.
+
+This result appears counterintuitive at first. However, the Simpson Diversity Index does not account for the actual density of any one group. This could suggest that spatial distribution of more segregated neighborhoods is missed in this model. To dive deeper into these relationships, a predictive CPGLM using relative percent by race was developed.
 
 
+### 2. Relative Percent
+
+This model used **percent by race** as predictor variables. It is important to note that all results are **relative to percent white**.
+
+```{r eval=FALSE}
+#| message: false
+#| warning: false
+model_relWhite <- cpglm(pm2.5_dailymean ~ month + pct_black + pct_asian + 
+                          pct_native + pct_pacific + pct_other_race +                                    pct_two_or_more, data = dataset)
+```
+
+***Results by Race % Population***
+
+* Percent Black:
+
+Estimate ~ **+0.00072** increase in PM2.5 exposure for each 1% increase in Black population. This increase seems small but is significant on large spatial scales. This result suggests areas with **higher percent Black populations have greater risk of PM2.5 exposure**, consistent with previous research on racial disparities with air quality metrics.
+
+
+* Percent Asian
+
+Estimate ~ **+0.00095** shows a similar increase in PM2.5 exposure in areas with higher Asian populations.
+
+* Percent Native American and Percent Pacific Islander
+
+Interestingly, both percent Native American and percent Pacific Islander saw strong negative associations with PM2.5, estimates **-0.073** and **-0.202**, respectively. This could suggest that these populations tend to be grouped in more rural areas or areas with lower industrialization.
+
+* Percent Other Race
+
+There was a small but significant positive association with PM2.5 (estimate **+0.0028**).
+
+* Percent Two or More Races
+
+This relationship was non-significant (p > 0.05).
+
+### Visualizing relationships
+
+The coefficient estimates from both the Simpson Diversity model and the Relative Percent by race model are shown below.
+
+![](images/cpglm_output.png)
 
 This comes from the file `analysis.qmd`.
 
-We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You'll also reflect on next steps and further analysis.
-
-The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc. 
-
-While the exact number of figures and tables will vary and depend on your analysis, you should target around 5 to 6. An overly long analysis could lead to losing points.
-If you want you can link back to your blog posts or create separate pages with more details.
-
-The style of this paper should aim to be that of an academic paper. 
-I don't expect this to be of publication quality but you should keep that aim in mind.
-Avoid using "we" too frequently, for example "We also found that ...". Describe your methodology and your findings but don't describe your whole process.
-
-### Example of loading data
-
-The code below shows an example of loading the loan refusal data set (which you should delete at some point).
-
-```{r}
-library(tidyverse)
-print(getwd())
-data <- read_rds(here::here("dataset/loan_refusal_clean.rds"))
-```
-
-## Note on Attribution
-
-In general, you should try to provide links to relevant resources, especially those that helped you. You don't have to link to every StackOverflow post you used but if there are explainers on aspects of the data or specific models that you found helpful, try to link to those. Also, try to link to other sources that might support (or refute) your analysis. These can just be regular hyperlinks. You don't need a formal citation.
-
-If you are directly quoting from a source, please make that clear. You can show long quotes using `>` like this
-
-```         
-> To be or not to be.
-```
-
-> To be or not to be.
 
 ------------------------------------------------------------------------
 
