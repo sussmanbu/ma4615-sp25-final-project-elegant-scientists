@@ -155,7 +155,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link active" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
+  <li><a href="#air-quality-by-season" id="toc-air-quality-by-season" class="nav-link active" data-scroll-target="#air-quality-by-season">Air Quality by Season</a></li>
+  <li><a href="#neighborhoods-by-race" id="toc-neighborhoods-by-race" class="nav-link" data-scroll-target="#neighborhoods-by-race">Neighborhoods by race</a>
+  <ul class="collapse">
+  <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
+  </ul></li>
   <li><a href="#note-on-attribution" id="toc-note-on-attribution" class="nav-link" data-scroll-target="#note-on-attribution">Note on Attribution</a></li>
   <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
   </ul>
@@ -188,7 +192,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"></p>
+<p><img src="images/clean_skies.jpeg" class="img-fluid"> This section explores trends in EPA air quality metric Particulate Matter 2.5 concentration across monitoring sites along the East Coast U.S. in addition to demographic trends in neighborhoods associated with measured air quality. The ultimate goal was to compare PM2.5 exposure by race throughout 2020.</p>
+<section id="air-quality-by-season" class="level2">
+<h2 class="anchored" data-anchor-id="air-quality-by-season">Air Quality by Season</h2>
+<p>Daily air quality parameters like particulate matter concentration are highly variable, especially on a regional scale. The air quality data for this project was collected in 2020, throughout the <strong>COVID-19 pandemic</strong>. Lockdowns and travel restrictions, particularly throughout Spring 2020, heavily impacted car travel and industry, major contributors of atmospheric particulate matter. Trends in particulate matter throughout 2020 were explored in <a href="here:here(/scripts/air_qual_trends.R)">air_qual_trends.R</a>.</p>
+<p>The variability of [PM2.5] over time is represented by an average daily value across all sites. A 7-day rolling average has been included to improve illustration of longer-term trends.</p>
+<p><img src="images/daily_pm_roll.png" class="img-fluid"></p>
+<p>On a monthly scale, reductions in [PM2.5] can be seen in all states during the early months of the pandemic (March-May). According to the <a href="https://www.cdc.gov/museum/timeline/covid19.html">CDC Museum Timeline</a>, most travel restrictions fell within this window.</p>
+<p><img src="images/month_pm_boxplot.png" class="img-fluid"></p>
+<p>To determine the effects of seasonality on particulate matter concentration, a linear mixed model (LMM) was performed. The chosen model allows for variation among <strong>neighborhoods</strong> (a nested variable within <strong>state</strong>) and across <strong>seasons</strong>. An ANOVA confirmed that neighborhood interaction significantly improved model fit.</p>
+<p>An estimated marginal means (from <code>library(emmeans)</code>) was used to explore trends in PM2.5 concentrations across neighborhoods, states, and seasons. Most neighborhoods demonstrated <strong>lowest [PM2.5]</strong> during the spring season, as expected. Trends in seasonality tended to vary among states, but within states, neighborhoods often demonstrated consistent patterns.</p>
+<p><img src="images/neighborhood_emmeans.png" class="img-fluid"></p>
+</section>
+<section id="neighborhoods-by-race" class="level2">
+<h2 class="anchored" data-anchor-id="neighborhoods-by-race">Neighborhoods by race</h2>
+<p>Visually, demographic differences between states and within states at the neighborhood level are apparent. To confirm statistical significance, a Kruskal-Wallis test was performed in <a href="here:here(/scripts/demographic_trends.R)">demographic_trends.R</a>. Percent population of all races differed significantly between states. However, <strong>within states</strong> neighborhoods were not significantly different by percent population by race.</p>
+<p><img src="images/site_demographics.png" class="img-fluid"></p>
 <p>This comes from the file <code>analysis.qmd</code>.</p>
 <p>We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You’ll also reflect on next steps and further analysis.</p>
 <p>The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.</p>
@@ -247,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"dataset/loan_refusal_clean.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 </section>
 <section id="note-on-attribution" class="level2">
 <h2 class="anchored" data-anchor-id="note-on-attribution">Note on Attribution</h2>

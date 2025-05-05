@@ -1,11 +1,14 @@
 rm(list = ls())
 
+library(sf)
 library(tidyverse)
+library(stringr)
 library(mediocrethemes)
 library(ggsci)
 
 census_data <- read_rds(file = here::here("dataset", "census_neighborhood.rds")) |>
-  select(-GEOID,-site_id, -starts_with("pct_"))
+  select(-GEOID,-site_id, -starts_with("pct_")) |>
+  st_drop_geometry()
 
 race_cols <- names(census_data) |>
   setdiff(c("site_name", "total_pop"))
@@ -61,3 +64,48 @@ neighborhood_demog
 
 ggsave(filename = here::here("images", "site_demographics.png"),
       plot = neighborhood_demog)
+
+# ANOVA race by state
+library(purrr)
+library(broom)
+
+census_neighborhood_summary <- census_neighborhood_summary |>
+  mutate(state = str_extract(neighborhood, "^[a-zA-Z]+"))
+
+census_pct_long <- census_neighborhood_summary |>
+  select(neighborhood, starts_with("perc_"), state) |>
+  pivot_longer(cols = starts_with("perc_"), 
+               names_to = "race", 
+               values_to = "percentage") |>
+  mutate(race = str_remove(race, "perc_"))
+
+avg_pct_state <- census_pct_long |>
+  group_by(state, race) |>
+  summarise(mean_pct = mean(percentage, na.rm = TRUE), .groups = "drop")
+
+kruskal_results <- census_pct_long |>
+  group_split(race) |>
+  map(~ {
+    result <- kruskal.test(percentage ~ state, data = .x)
+    tibble(race = unique(.x$race), p.value = result$p.value)
+  }) |>
+  bind_rows()
+
+kruskal_results |>
+  select(race, p.value)
+
+# by state: neighborhood comparisons, skips maryland (1 neighborhood)
+kruskal_by_state_race <- census_pct_long |>
+  dplyr::group_by(state, race) |>
+  dplyr::group_split() |>
+  purrr::map_dfr(\(df) {
+    if (length(unique(df$neighborhood)) < 2) {
+      return(NULL)  # Skip if only one neighborhood (maryland)
+    }
+    result <- kruskal.test(percentage ~ neighborhood, data = df)
+    tibble(
+      state = unique(df$state),
+      race = unique(df$race),
+      p.value = result$p.value
+    )
+  })
