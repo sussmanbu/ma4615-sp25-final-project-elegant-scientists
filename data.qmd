@@ -13,32 +13,21 @@ For this project, we combined data from the [EPA AirNow](https://www.epa.gov/out
 
 Originally, we had chosen three sited in Boston. however, to improve our investigation, we obtained additional sites in Massachusetts, New York, Pennsylvania, New Jersey, Delaware, and Maryland.
 
-The locations of each EPA air quality monitoring station is shown below:
-```{r, echo=FALSE, out.width="100%"}
+The locations of each EPA air quality monitoring station are shown below:
 
-knitr::include_graphics(c(
+![](images/msp of stations.png)
+**Figure 1.** Distribution of all EPA PM2.5 monitoring stations across the northeastern United States, including Massachusetts, New York, New Jersey, Pennsylvania, and Delaware.
 
-  "~/Desktop/Girish Folders/Boston University Classes/Bu semester 8/CASMA415/Project Elegant Scientists/images/msp of stations.png",
+![](images/bos.png)
+**Figure 2.** Boston-area air quality monitoring sites. Stations are located in key neighborhoods including Fenway-Kenmore, South Boston, and Roxbury.
 
-  "~/Desktop/Girish Folders/Boston University Classes/Bu semester 8/CASMA415/Project Elegant Scientists/images/bos.png",
+![](images/map of the stations NYc.png)
+**Figure 3.** PM2.5 monitoring stations across Manhattan, New York City. Locations include Harlem, Upper East Side, Lower Manhattan, and Central Park vicinity.
 
-  "~/Desktop/Girish Folders/Boston University Classes/Bu semester 8/CASMA415/Project Elegant Scientists/images/map of the stations NYc.png",
+![](images/phili.png)
+**Figure 4.** Monitoring stations across the Philadelphia metropolitan area, including sites in West Philly, South Jersey suburbs (e.g., Camden, Cherry Hill), and northern Delaware (Wilmington, Newark).
 
-  "~/Desktop/Girish Folders/Boston University Classes/Bu semester 8/CASMA415/Project Elegant Scientists/images/phili.png"
-
-))
-
-```
-
-Figure 1. Distribution of all EPA PM2.5 monitoring stations across the northeastern United States, including Massachusetts, New York, New Jersey, Pennsylvania, and Delaware.
-
-Figure 2. Boston-area air quality monitoring sites. Stations are located in key neighborhoods including Fenway-Kenmore, South Boston, and Roxbury.
-
-Figure 3. PM2.5 monitoring stations across Manhattan, New York City. Locations include Harlem, Upper East Side, Lower Manhattan, and Central Park vicinity.
-
-Figure 4. Monitoring stations across the Philadelphia metropolitan area, including sites in West Philly, South Jersey suburbs (e.g., Camden, Cherry Hill), and northern Delaware (Wilmington, Newark).
-
-Each state's data was downloaded for all of 2020 seperately, and had to be joined together in the [load_and_clean_air_qual](here::here(/scripts/load_and_clean_air_qual.R)) file. The columns of interest included:
+Each state's data was downloaded for all of 2020 separately, and had to be joined together in the [load_and_clean_air_qual](here::here(/scripts/load_and_clean_air_qual.R)) file. The columns of interest included:
 
 * Date: Allowws for trends in air quality parameters over time
 * State: To distinguish groups
@@ -52,7 +41,9 @@ Each state's data was downloaded for all of 2020 seperately, and had to be joine
 
 Notably in the data, the distribution of Daily Mean PM2.5 is right skewed. This is frequent in air quality data, as most days have generally low concentrations of particulate matter at a wide geographic scale.
 
-```{r, echo=FALSE}
+```{r echo=FALSE}
+#| message: false
+#| warning: false
 library(tidyverse)
 
 dataset <- read_rds(file = here::here("dataset/air_qual_census.rds"))
