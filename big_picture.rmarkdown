@@ -7,6 +7,9 @@ filters:
   - shinylive
 ---
 
+
+
+
 ![](images/The_Big_Picture_2.jpeg)
 
 This comes from the file `big_picture.qmd`.
@@ -21,6 +24,9 @@ Think of this page as your 538/Upshot style article. This means that you should 
 ### Interactive
 
 Your Big Data page should also include a small interactive dashboard. The dashboard should be created either using Shinylive, as below. This interactive component should in some way support your thesis from your big picture page. Good interactives often provide both high-level understanding of the data while allowing a user to investigate specific scenarios, observations, subgroups, etc.
+
+
+
 
 ```{r, echo=FALSE}
 #| message: true
@@ -220,6 +226,9 @@ shinyApp(ui, server)
 
 ```
 
+
+
+
 ## Rubric: On this page
 
 
@@ -262,3 +271,4 @@ All lab required posts are present.
 Each page (including the home page) has a nice featured image associated with it.
 Your about page is up to date and clean.
 You have removed the generic posts from the initial site template.
+
