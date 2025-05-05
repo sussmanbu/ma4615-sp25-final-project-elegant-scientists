@@ -1,0 +1,12 @@
+---
+title: "Blog 8: A pivot at the end"
+description: |
+  Expanding dataset and improving analysis.
+authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
+date: "2025-04-30"
+draft: FALSE
+---
+
+### Continuing Exploratory Data Analtsis... Sort of...
+
+We ran into an issue late in the semester. Our iriginal dataset included only **three** air quality monitoring stations around Boston. These sites and associated trends have been well described in earlier blog posts. However, we wanted to draw broader conclusions about associations between demographic characteristics and exposure to air pollution than was possible with that geographic spread.

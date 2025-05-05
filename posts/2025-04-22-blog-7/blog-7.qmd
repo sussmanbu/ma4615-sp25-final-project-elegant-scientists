@@ -3,7 +3,7 @@ title: "Blog 7: Simple Interactive"
 description: |
   Exploration of model type and initial findings.
 authors: "Cat Mahoney, Yana Pathak, Jiaxuan Li, Girish Hrithik Shivnauth, Xiaolong Zhou"
-date: "2025-04-14"
+date: "2025-04-22"
 draft: FALSE
 ---
 
