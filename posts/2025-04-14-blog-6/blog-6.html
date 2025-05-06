@@ -162,9 +162,9 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="choosing-model-type">Choosing model type</h3>
 <p>Initially, we wanted to pursue a Gamma model for predicting PM2.5 based on racial distribution in the different Boston neighborhoods. However, the structure of our data created an issue with this model type.</p>
 <p>As shown below, the distribution of PM2.5 is <strong>skewed right</strong>, consistent with many other air pollution distributions. This suggests that most days have relatively low [PM2.5], with infrequent events of high particulate matter.</p>
-<p><img src="../..\images/pm25_distr.png" class="img-fluid"></p>
+<p><img src="../../images/pm25_distr.png" class="img-fluid"></p>
 <p>There was also a general trend of <strong>increasing variance with increased mean</strong>.</p>
-<p><img src="../..\images/pm25_var_mean.png" class="img-fluid"> Both the <strong>distribution</strong> and the <strong>variance-to-mean</strong> relationship fit a gamma model. The problem comes from the existence of true zero values within the PM2.5 daily mean measurements. Additionally, there were three instances of negative [PM2.5] values in the data, which we set equal to zero under the assumption that negative particulate matter cannot exist.</p>
+<p><img src="../../images/pm25_var_mean.png" class="img-fluid"> Both the <strong>distribution</strong> and the <strong>variance-to-mean</strong> relationship fit a gamma model. The problem comes from the existence of true zero values within the PM2.5 daily mean measurements. Additionally, there were three instances of negative [PM2.5] values in the data, which we set equal to zero under the assumption that negative particulate matter cannot exist.</p>
 <p>Gamma models cannot handle true zero values. The alternative we found was to use a <strong>Tweedie model</strong>, another form of GLM that allows for true zeroes.</p>
 </section>
 <section id="creating-the-tweedie-models" class="level3">
